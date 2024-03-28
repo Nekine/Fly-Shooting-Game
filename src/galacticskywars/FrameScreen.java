@@ -70,3 +70,6 @@ public class FrameScreen extends JFrame implements MouseListener{
     public void mouseExited(MouseEvent e) {}
     
 }
+
+
+// check
