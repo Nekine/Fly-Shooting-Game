@@ -1,8 +1,8 @@
 
 package List_of_game_maps;
 
-import List_of_fighter_aircraft.*;
-import galacticskywars.StartScreen;
+import List_of_ammos.*;
+import List_of_fighter_aircrafts.CombatAircraft;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
@@ -12,17 +12,28 @@ import javax.imageio.ImageIO;
 public class Map1 {
     private Image background;
     private CombatAircraft aircraft;
+    private Level1_Ammo ammo;
     
-    public static int left, right, up, down;
+    public static boolean checkStart;
 
     public Map1() {
+        Map1.checkStart = false;
+        
         this.aircraft = new CombatAircraft();
-        Map1.left = Map1.right = Map1.up = Map1.down = 0;
+        this.ammo = new Level1_Ammo();
     }
     
     public void paint(Graphics g){
         this.paintBG(g);
-        this.aircraft.paint(g, StartScreen.index, StartScreen.item);
+        if(CombatAircraft.checkMove == 0){
+            this.aircraft.paint(g);
+        }
+        else{
+            this.aircraft.painMove(g);
+        }
+        if(Map1.checkStart){
+            this.ammo.paint(g);
+        }
     }
     
     public void paintBG(Graphics g){
