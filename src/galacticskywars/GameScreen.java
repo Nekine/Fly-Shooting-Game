@@ -1,4 +1,3 @@
-
 package galacticskywars;
 
 import List_of_ammos.Level1_Ammo;
@@ -11,16 +10,16 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import List_of_game_maps.*;
+import List_of_space_flies.*;
 
+public class GameScreen extends JPanel implements Runnable {
 
-public class GameScreen extends JPanel implements Runnable{
     Thread thread;
     private Image background;
     private Map1 map1;
-    
+
     public StartScreen start;
     public static boolean checkPlay;
-    
 
     public GameScreen() {
         thread = new Thread(this);
@@ -30,106 +29,127 @@ public class GameScreen extends JPanel implements Runnable{
         this.setBounds(0, 0, 1000, 800); // khai báo kích thước của Jpanel
         thread.start();
     }
-    
+
     @Override
-    public void paint(Graphics g){
+    public void paint(Graphics g) {
         this.paintBG(g);
         this.start.paint(g);
         this.start.playAudio_Main();
-        if(GameScreen.checkPlay){
+        if (GameScreen.checkPlay) {
             this.map1.paint(g);
         }
     }
-    
-    public void paintBG(Graphics g){
-        try{
+
+    public void paintBG(Graphics g) {
+        try {
             this.background = ImageIO.read(new File("images_game/vutru.jpg"));
             g.drawImage(this.background, 0, 0, 1000, 800, null);
-        }catch(Exception e){}   
+        } catch (Exception e) {
+        }
+    }
+    
+    private void startGame(){
+        if (GameScreen.checkPlay) {
+            if (CombatAircraft.GO_UP < 70) {
+                CombatAircraft.GO_UP += 5;
+            }
+
+            if (CombatAircraft.GO_UP == 70) {
+                Map1.checkStart = true;
+            }
+        }
+    }
+    
+    private void moveToThePlane(){
+        if (GameScreen.checkPlay && Map1.checkStart) {
+            if (CombatAircraft.checkMove == 1) {
+                CombatAircraft.GO_LEFT += 10;
+                if (CombatAircraft.itemLeft < 4) {
+                    CombatAircraft.itemLeft++;
+                }
+                CombatAircraft.itemRight = 0;
+            } else if (CombatAircraft.checkMove == 2) {
+                CombatAircraft.GO_RIGHT += 10;
+                if (CombatAircraft.itemRight < 4) {
+                    CombatAircraft.itemRight++;
+                }
+                CombatAircraft.itemLeft = 0;
+            } else if (CombatAircraft.checkMove == 3) {
+                CombatAircraft.GO_UP += 10;
+                CombatAircraft.itemLeft = 0;
+                CombatAircraft.itemRight = 0;
+            } else if (CombatAircraft.checkMove == 4) {
+                CombatAircraft.GO_DOWN += 10;
+                CombatAircraft.itemLeft = 0;
+                CombatAircraft.itemRight = 0;
+                
+                for(int i=0; i<8; i++){
+                    Level1_Ammo.shooting[i] += 10;
+                }
+            }
+        }
+    }
+    
+    private void shootingAmmo(){
+        if (GameScreen.checkPlay && Map1.checkStart) {
+            for (int i = 0; i < 8; i++) {
+                if (i == 0) {
+                    Level1_Ammo.shooting[i] += 10;
+
+                    if (Level1_Ammo.shooting[i]+CombatAircraft.GO_UP-CombatAircraft.GO_DOWN > 750) { // nếu đạn bay ra ngoài phạm vi màn hình thì sẽ sét giá trị về 0 để quay lại
+                        Level1_Ammo.shooting[i] = 0;
+                    }
+                } else {
+                    if (Level1_Ammo.shooting[i - 1] > 80 || Level1_Ammo.shooting[i] > 200) { // nếu bạn trước bay được 1 đoạn thì mới cho đạn sau bắn ra hoặc nếu khi đạn bay ra được 1 đoạn nhất định rồi
+                        Level1_Ammo.shooting[i] += 10;
+
+                        if (Level1_Ammo.shooting[i]+CombatAircraft.GO_UP-CombatAircraft.GO_DOWN > 750) {
+                            Level1_Ammo.shooting[i] = 0;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override
     public void run() {
-        while(true){
-            repaint();   
+        while (true) {
+            repaint();
             try {
-                Thread.sleep(50);
+                Thread.sleep(30);
             } catch (InterruptedException ex) {
                 Logger.getLogger(GameScreen.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            // chuyển item ảnh
-            if(CombatAircraft.item == 4){
-                CombatAircraft.item = 0;
+
+            // chuyển item ảnh aircraft
+            long currentTimeMillis = Math.round((System.currentTimeMillis() % 1000)/ 100);
+            if(currentTimeMillis % 2 == 0){
+                if (CombatAircraft.item == 4) {
+                    CombatAircraft.item = 0;
+                } else {
+                    CombatAircraft.item++;
+                }
             }
-            else{
-                CombatAircraft.item++;
-            }
             
+            // chuyển item ảnh fly
+            if(currentTimeMillis % 2 == 0){
+                if(Level1_Flies.item == 1){
+                    Level1_Flies.item = 0;
+                } else {
+                    Level1_Flies.item++;
+                }
+            }
+
             // di chuyển may bay khi start game
-            if(GameScreen.checkPlay){
-                if(CombatAircraft.GO_UP < 70){
-                    CombatAircraft.GO_UP += 5;
-                }
-                
-                if(CombatAircraft.GO_UP == 70){
-                    Map1.checkStart = true;
-                }
-            }
-            
+            this.startGame();
+
             // di chuyển máy bay
-            if(GameScreen.checkPlay && Map1.checkStart){
-                if(CombatAircraft.checkMove == 1){
-                    CombatAircraft.GO_LEFT += 10;
-                    if(CombatAircraft.itemLeft < 4){
-                        CombatAircraft.itemLeft++;
-                    }
-                    CombatAircraft.itemRight = 0;
-                 }
-                 else if(CombatAircraft.checkMove == 2){
-                    CombatAircraft.GO_RIGHT += 10;
-                    if(CombatAircraft.itemRight < 4){
-                        CombatAircraft.itemRight++;
-                    }
-                    CombatAircraft.itemLeft = 0;
-                 }
-                 else if(CombatAircraft.checkMove == 3){
-                    CombatAircraft.GO_UP += 10;
-                    CombatAircraft.itemLeft = 0;
-                    CombatAircraft.itemRight = 0;
-                 }
-                 else if(CombatAircraft.checkMove == 4){
-                    CombatAircraft.GO_DOWN += 10;
-                    CombatAircraft.itemLeft = 0;
-                    CombatAircraft.itemRight = 0;
-                 }
-            }
-            
+            this.moveToThePlane();
+
             // bắn đạn 
-            if(GameScreen.checkPlay && Map1.checkStart){
-                for(int i=0; i<8; i++){
-                    if(i == 0){
-                        if(Level1_Ammo.shooting[i] > 650){
-                            Level1_Ammo.shooting[i] = 0;
-                        }
-                        else{
-                            Level1_Ammo.shooting[i] += 10;
-                        }
-                    }
-                    else{
-                        if(Level1_Ammo.shooting[i-1] > 80){
-                            if(Level1_Ammo.shooting[i] > 650){
-                                Level1_Ammo.shooting[i] = 0;
-                            }
-                            else{
-                                Level1_Ammo.shooting[i] += 10;
-                            }
-                        }
-                    }
-                }
-            }
+            this.shootingAmmo();
         }
     }
-    
-    
+
 }
