@@ -60,6 +60,14 @@ public class GameScreen extends JPanel implements Runnable {
         }
     }
     
+    private void moveFlies(){
+        if(Map1.checkStart){
+            if(Level1_Flies.GO_DOWN < 50){
+                Level1_Flies.GO_DOWN += 1;
+            }
+        }
+    }
+    
     private void moveToThePlane(){
         if (GameScreen.checkPlay && Map1.checkStart) {
             if (CombatAircraft.checkMove == 1) {
@@ -98,6 +106,9 @@ public class GameScreen extends JPanel implements Runnable {
 
                     if (Level1_Ammo.shooting[i]+CombatAircraft.GO_UP-CombatAircraft.GO_DOWN > 750) { // nếu đạn bay ra ngoài phạm vi màn hình thì sẽ sét giá trị về 0 để quay lại
                         Level1_Ammo.shooting[i] = 0;
+                        Level1_Ammo.flyHitCheck[i] = false;
+                        Level1_Ammo.left[i] = CombatAircraft.GO_LEFT;
+                        Level1_Ammo.right[i] = CombatAircraft.GO_RIGHT;
                     }
                 } else {
                     if (Level1_Ammo.shooting[i - 1] > 80 || Level1_Ammo.shooting[i] > 200) { // nếu bạn trước bay được 1 đoạn thì mới cho đạn sau bắn ra hoặc nếu khi đạn bay ra được 1 đoạn nhất định rồi
@@ -105,12 +116,45 @@ public class GameScreen extends JPanel implements Runnable {
 
                         if (Level1_Ammo.shooting[i]+CombatAircraft.GO_UP-CombatAircraft.GO_DOWN > 750) {
                             Level1_Ammo.shooting[i] = 0;
+                            Level1_Ammo.flyHitCheck[i] = false;
+                            Level1_Ammo.left[i] = CombatAircraft.GO_LEFT;
+                            Level1_Ammo.right[i] = CombatAircraft.GO_RIGHT;
                         }
                     }
                 }
             }
         }
     }
+    
+    private void bulletHitsFly(){
+        //Graphics g = null;
+        
+        for(int i=0; i<8; i++){
+            int xAmmo = 465-Level1_Ammo.left[i]+Level1_Ammo.right[i];
+            int yAmmo = 650-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN-Level1_Ammo.shooting[i];
+            
+            for(int j=17; j>=0; j--){
+                int xFly;
+                int yFly;
+                if(j < 9){
+                    xFly = 50+j*100;
+                    yFly = Level1_Flies.GO_DOWN;
+                } else {
+                    xFly = 50+(j-9)*100;
+                    yFly = Level1_Flies.GO_DOWN+90;
+                }
+                
+                if(xAmmo>=xFly && xAmmo<=xFly+60 && yAmmo<=yFly+60 && Level1_Flies.checkDie[j]<3){
+                    Level1_Flies.checkDie[j]++;
+                    Level1_Ammo.flyHitCheck[i] = true;
+                    //this.map1.paint(g);
+                    break;
+                }
+            }
+        }
+    }
+    
+    
 
     @Override
     public void run() {
@@ -140,15 +184,30 @@ public class GameScreen extends JPanel implements Runnable {
                     Level1_Flies.item++;
                 }
             }
+            
+            if(Level1_Flies.GO_DOWN < 50 && currentTimeMillis % 2 == 0){
+                if(Level1_Flies.itemMove == 3){
+                    Level1_Flies.itemMove = 0;
+                }
+                else{
+                    Level1_Flies.itemMove++;
+                }
+            }
 
             // di chuyển may bay khi start game
             this.startGame();
-
+            
+            // di chuyển ruồi khi start game
+            this.moveFlies();
+            
             // di chuyển máy bay
             this.moveToThePlane();
 
             // bắn đạn 
             this.shootingAmmo();
+            
+            // kiểm tra đạn bắn trúng ruồi
+            this.bulletHitsFly();
         }
     }
 

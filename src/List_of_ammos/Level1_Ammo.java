@@ -8,24 +8,28 @@ import javax.imageio.ImageIO;
 
 public class Level1_Ammo {
     private Image ammo[][][];
-    private int left[], right[];
     
+    public static int left[], right[];
     public static int index;
     public static int item;
     public static int shooting[];
+    public static boolean flyHitCheck[];
 
     public Level1_Ammo() {
         this.ammo = new Image[4][3][8];
         Level1_Ammo.shooting = new int[8];
+        Level1_Ammo.flyHitCheck = new boolean[8];
         
-        this.left = new int[8];
-        this.right = new int[8];
+        Level1_Ammo.left = new int[8];
+        Level1_Ammo.right = new int[8];
         
         Level1_Ammo.index = 0;
         Level1_Ammo.item = 0;
         for(int i=0; i<8; i++){
             Level1_Ammo.shooting[i] = 0;
-            this.left[i] = this.right[i] = 0;
+            Level1_Ammo.flyHitCheck[i] = false;
+            Level1_Ammo.left[i] = 0;
+            Level1_Ammo.right[i] = 0;
         }
         
         for(int i=2; i<6; i++){
@@ -40,18 +44,18 @@ public class Level1_Ammo {
     }
     
     public void paint(Graphics g){
-        for(int i=0; i<8; i++){
-            if(Level1_Ammo.shooting[i] == 0 && (CombatAircraft.GO_LEFT != this.left[i] || CombatAircraft.GO_RIGHT != this.right[i])){
-                this.left[i] = CombatAircraft.GO_LEFT;
-                this.right[i] = CombatAircraft.GO_RIGHT;
-            }
-            
+        for(int i=0; i<8; i++){  
+            System.out.println(i + "-" + Level1_Ammo.flyHitCheck[i]);
             if(i == 0){
-                g.drawImage(this.ammo[Level1_Ammo.index][Level1_Ammo.item][i], 465-this.left[i]+this.right[i], 650-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN-Level1_Ammo.shooting[i], 20, 60, null);
+                if(!Level1_Ammo.flyHitCheck[i]){
+                    g.drawImage(this.ammo[Level1_Ammo.index][Level1_Ammo.item][i], 465-Level1_Ammo.left[i]+Level1_Ammo.right[i], 650-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN-Level1_Ammo.shooting[i], 20, 60, null);
+                }
             }
             else{
                 if(Level1_Ammo.shooting[i-1] > 70 || Level1_Ammo.shooting[i] > 200){
-                    g.drawImage(this.ammo[Level1_Ammo.index][Level1_Ammo.item][i], 465-this.left[i]+this.right[i], 650-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN-Level1_Ammo.shooting[i], 20, 60, null);
+                    if(!Level1_Ammo.flyHitCheck[i]){
+                        g.drawImage(this.ammo[Level1_Ammo.index][Level1_Ammo.item][i], 465-Level1_Ammo.left[i]+Level1_Ammo.right[i], 650-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN-Level1_Ammo.shooting[i], 20, 60, null);
+                    }
                 }
             }
         }
