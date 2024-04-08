@@ -5,9 +5,11 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import javax.imageio.ImageIO;
+import List_of_sounds.*;
 
 public class Level1_Ammo {
     private Image ammo[][][];
+    private gunshot_sound gunshot[];
     
     public static int left[], right[];
     public static int index;
@@ -17,6 +19,7 @@ public class Level1_Ammo {
 
     public Level1_Ammo() {
         this.ammo = new Image[4][3][8];
+        this.gunshot = new gunshot_sound[8];
         Level1_Ammo.shooting = new int[8];
         Level1_Ammo.flyHitCheck = new boolean[8];
         
@@ -30,6 +33,8 @@ public class Level1_Ammo {
             Level1_Ammo.flyHitCheck[i] = false;
             Level1_Ammo.left[i] = 0;
             Level1_Ammo.right[i] = 0;
+            
+            this.gunshot[i] = new gunshot_sound();
         }
         
         for(int i=2; i<6; i++){
@@ -44,8 +49,11 @@ public class Level1_Ammo {
     }
     
     public void paint(Graphics g){
-        for(int i=0; i<8; i++){  
-            System.out.println(i + "-" + Level1_Ammo.flyHitCheck[i]);
+        for(int i=0; i<8; i++){ 
+            if(Level1_Ammo.shooting[i] == 0){
+                this.gunshot[i].gunshotSound();
+            }
+            
             if(i == 0){
                 if(!Level1_Ammo.flyHitCheck[i]){
                     g.drawImage(this.ammo[Level1_Ammo.index][Level1_Ammo.item][i], 465-Level1_Ammo.left[i]+Level1_Ammo.right[i], 650-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN-Level1_Ammo.shooting[i], 20, 60, null);

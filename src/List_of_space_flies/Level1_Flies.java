@@ -10,6 +10,7 @@ public class Level1_Flies {
     private Image flies[][];
     private Image flyDown[][];
     private Image flyUp[][];
+    private Image ammoFly;
     
     public static int item;
     public static int itemMove;
@@ -45,6 +46,10 @@ public class Level1_Flies {
                 }catch(Exception e){}
             }
         }
+        
+        try{
+            this.ammoFly = ImageIO.read(new File("S675/EnemyBullet.png"));
+        }catch(Exception e){}
     }
     
     public void paint(Graphics g){

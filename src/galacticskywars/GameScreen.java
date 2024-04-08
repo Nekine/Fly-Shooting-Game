@@ -126,9 +126,7 @@ public class GameScreen extends JPanel implements Runnable {
         }
     }
     
-    private void bulletHitsFly(){
-        //Graphics g = null;
-        
+    private void bulletHitsFly(){        
         for(int i=0; i<8; i++){
             int xAmmo = 465-Level1_Ammo.left[i]+Level1_Ammo.right[i];
             int yAmmo = 650-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN-Level1_Ammo.shooting[i];
@@ -144,10 +142,9 @@ public class GameScreen extends JPanel implements Runnable {
                     yFly = Level1_Flies.GO_DOWN+90;
                 }
                 
-                if(xAmmo>=xFly && xAmmo<=xFly+60 && yAmmo<=yFly+60 && Level1_Flies.checkDie[j]<3){
+                if(xAmmo>=xFly && xAmmo<=xFly+60 && yAmmo<=yFly+60 && Level1_Flies.checkDie[j]<3 && !Level1_Ammo.flyHitCheck[i]){
                     Level1_Flies.checkDie[j]++;
                     Level1_Ammo.flyHitCheck[i] = true;
-                    //this.map1.paint(g);
                     break;
                 }
             }
