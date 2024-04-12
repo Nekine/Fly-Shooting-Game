@@ -10,7 +10,7 @@ import List_of_space_flies.Level1_Flies;
 
 public class Level1_Ammo {
     private Image ammo[][][];
-    private aircraft_sounds gunshot[];
+    private aircraft_sounds gunshot;
     
     public static int left[], right[];
     public static int index;
@@ -20,7 +20,7 @@ public class Level1_Ammo {
 
     public Level1_Ammo() {
         this.ammo = new Image[4][3][8];
-        this.gunshot = new aircraft_sounds[8];
+        this.gunshot = new aircraft_sounds();
         Level1_Ammo.shooting = new int[8];
         Level1_Ammo.flyHitCheck = new boolean[8];
         
@@ -34,8 +34,6 @@ public class Level1_Ammo {
             Level1_Ammo.flyHitCheck[i] = false;
             Level1_Ammo.left[i] = 0;
             Level1_Ammo.right[i] = 0;
-            
-            this.gunshot[i] = new aircraft_sounds();
         }
         
         for(int i=2; i<6; i++){
@@ -52,7 +50,7 @@ public class Level1_Ammo {
     public void paint(Graphics g){
         for(int i=0; i<8; i++){ 
             if(Level1_Ammo.shooting[i] == 0){
-                this.gunshot[i].gunshotSound();
+                this.gunshot.gunshotSound();
             }
             
             if(i == 0){
@@ -70,7 +68,7 @@ public class Level1_Ammo {
         }
     }
     
-    public void bulletHitsFly(){        
+    public void bulletHitsFly1(){        
         for(int i=0; i<8; i++){
             int xAmmo = 465-Level1_Ammo.left[i]+Level1_Ammo.right[i];
             int yAmmo = 650-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN-Level1_Ammo.shooting[i];

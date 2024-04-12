@@ -2,7 +2,6 @@
 package galacticskywars;
 
 import List_of_fighter_aircrafts.CombatAircraft;
-import List_of_game_maps.Map1;
 import List_of_sounds.*;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -16,8 +15,9 @@ public class StartScreen{
     private Image nextIcon;
     private Image prevIcon;
     private Image playButton;
-    public CombatAircraft aircraft;
     private sounds_start audio;
+    
+    public CombatAircraft aircraft;
 
     public StartScreen() {
         try{
@@ -38,18 +38,6 @@ public class StartScreen{
         g.drawImage(this.nextIcon, 590, 500, 30, 40, null);
         g.drawImage(this.playButton, 430, 600, 120, 60, null);
         this.aircraft.paint(g);
-    }
-    
-    public void startGame(){
-        if (GameScreen.checkPlay) {
-            if (CombatAircraft.GO_UP < 70) {
-                CombatAircraft.GO_UP += 5;
-            }
-
-            if (CombatAircraft.GO_UP == 70) {
-                Map1.checkStart = true;
-            }
-        }
     }
        
     public void playAudio_Main(){

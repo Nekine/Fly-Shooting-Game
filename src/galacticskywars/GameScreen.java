@@ -17,6 +17,7 @@ public class GameScreen extends JPanel implements Runnable {
     Thread thread;
     private Image background;
     private Map1 map1;
+    private Map2 map2;
 
     public StartScreen start;
     public static boolean checkPlay;
@@ -25,6 +26,7 @@ public class GameScreen extends JPanel implements Runnable {
         thread = new Thread(this);
         this.start = new StartScreen();
         this.map1 = new Map1();
+        this.map2 = new Map2();
         GameScreen.checkPlay = false;
         this.setBounds(0, 0, 1000, 800); // khai báo kích thước của Jpanel
         thread.start();
@@ -35,8 +37,11 @@ public class GameScreen extends JPanel implements Runnable {
         this.paintBG(g);
         this.start.paint(g);
         this.start.playAudio_Main();
-        if (GameScreen.checkPlay) {
+        if (GameScreen.checkPlay && !Map1.switch_to_map2) {
             this.map1.paint(g);
+        }
+        else if(GameScreen.checkPlay && Map1.switch_to_map2){
+            this.map2.paint(g);
         }
     }
 
@@ -51,33 +56,24 @@ public class GameScreen extends JPanel implements Runnable {
     @Override
     public void run() {
         while (true) {
-            // chuyển item ảnh aircraft
-            long currentTimeMillis = Math.round((System.currentTimeMillis() % 1000)/ 100);
-            if(currentTimeMillis % 2 == 0){
-                if (CombatAircraft.item == 4) {
-                    CombatAircraft.item = 0;
-                } else {
-                    CombatAircraft.item++;
-                }
-            }
-            
-            if(CombatAircraft.checkDie && currentTimeMillis % 3 == 0){
-                if(CombatAircraft.itemDie<7){
-                    CombatAircraft.itemDie++;
-                }
-            }
-            
             if(!CombatAircraft.checkDie){
-                // chuyển item ảnh fly
+                // chuyển item ảnh aircraft
+                long currentTimeMillis = Math.round((System.currentTimeMillis() % 1000)/ 100);
                 if(currentTimeMillis % 2 == 0){
-                    if(Level1_Flies.item == 1){
-                        Level1_Flies.item = 0;
+                    if (CombatAircraft.item == 4) {
+                        CombatAircraft.item = 0;
                     } else {
-                        Level1_Flies.item++;
+                        CombatAircraft.item++;
                     }
                 }
 
-                if(Level1_Flies.GO_DOWN < 50 && currentTimeMillis % 2 == 0){
+                if(CombatAircraft.checkDie && currentTimeMillis % 3 == 0){
+                    if(CombatAircraft.itemDie<7){
+                        CombatAircraft.itemDie++;
+                    }
+                }
+                // chuyển item ảnh fly
+                if(currentTimeMillis % 2 == 0){
                     if(Level1_Flies.itemMove == 3){
                         Level1_Flies.itemMove = 0;
                     }
@@ -85,29 +81,43 @@ public class GameScreen extends JPanel implements Runnable {
                         Level1_Flies.itemMove++;
                     }
                 }
-
                 // di chuyển may bay khi start game
-                this.start.startGame();
+                if(!Map1.checkWin){
+                    this.map1.startGame();
+                }
+                else if(Map1.switch_to_map2 && !Map2.checkStart){
+                    this.map2.startGame();
+                }
+                
 
                 // di chuyển ruồi khi start game
                 this.map1.fly.moveFlies();
 
                 // di chuyển máy bay
-                this.start.aircraft.moveToThePlane();
+                if(Map1.checkStart){
+                    this.start.aircraft.moveToThePlane();
+                }
 
                 // bắn đạn 
-                this.start.aircraft.shootingAmmo();
+                if(Map1.checkStart){
+                    this.start.aircraft.shootingAmmo();
+                }
 
                 // kiểm tra đạn bắn trúng ruồi
-                this.start.aircraft.ammo.bulletHitsFly();
+                if(!Map1.checkWin){
+                    this.start.aircraft.ammo.bulletHitsFly1();
+                }
 
                 // kiểm tra máy bay bị chết
-                this.start.aircraft.checkDieAircraft();
+                if(!Map1.checkWin){
+                    this.start.aircraft.checkDieAircraft();
+                }
                 
                 // kiểm tra thắng màn chơi
-                if(Map1.checkStart){
+                if(Map1.checkStart && Map1.checkWin && !Map1.switch_to_map2){
                     this.map1.win();
                 }
+                
             }
             
             repaint();

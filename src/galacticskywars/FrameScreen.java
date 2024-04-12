@@ -101,6 +101,3 @@ public class FrameScreen extends JFrame implements MouseListener{
         
     }
 }
-
-
-// check
