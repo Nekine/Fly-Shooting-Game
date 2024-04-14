@@ -1,6 +1,6 @@
 package galacticskywars;
 
-import List_of_ammos.Level1_Ammo;
+import List_of_ammos.AmmoBlu1;
 import List_of_fighter_aircrafts.CombatAircraft;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -74,11 +74,31 @@ public class GameScreen extends JPanel implements Runnable {
                 }
                 // chuyển item ảnh fly
                 if(currentTimeMillis % 2 == 0){
-                    if(Level1_Flies.itemMove == 3){
-                        Level1_Flies.itemMove = 0;
+                    if(!Map1.checkWin){
+                        if(Level1_Flies.itemMove == 3){
+                            Level1_Flies.itemMove = 0;
+                        }
+                        else{
+                            Level1_Flies.itemMove++;
+                        }
                     }
-                    else{
-                        Level1_Flies.itemMove++;
+                    else if(!Map2.checkWin){
+                        if(Level2_Flies.GO_DOWN < 50){
+                            if(Level2_Flies.itemDown == 4){
+                                Level2_Flies.itemDown = 0;
+                            }
+                            else {
+                                Level2_Flies.itemDown++;
+                            }
+                        }
+                        else{
+                            if(Level2_Flies.itemIdle == 4){
+                                Level2_Flies.itemIdle = 0;
+                            }
+                            else {
+                                Level2_Flies.itemIdle++;
+                            }
+                        }
                     }
                 }
                 // di chuyển may bay khi start game
@@ -91,7 +111,12 @@ public class GameScreen extends JPanel implements Runnable {
                 
 
                 // di chuyển ruồi khi start game
-                this.map1.fly.moveFlies();
+                if(Map1.checkStart && !Map1.checkWin){
+                    this.map1.fly.moveFlies();
+                }
+                else if(Map2.checkStart && !Map2.checkWin){
+                    this.map2.fly.moveFlies();
+                }
 
                 // di chuyển máy bay
                 if(Map1.checkStart){

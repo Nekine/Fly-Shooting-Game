@@ -1,7 +1,7 @@
 
 package List_of_game_maps;
 
-import List_of_ammos.Level1_Ammo;
+import List_of_ammos.AmmoBlu1;
 import List_of_fighter_aircrafts.CombatAircraft;
 import List_of_space_flies.*;
 import galacticskywars.GameScreen;
@@ -89,10 +89,10 @@ public class Map1 {
         }
         
         for(int i=0; i<8; i++){
-            Level1_Ammo.shooting[i] = 0;
-            Level1_Ammo.left[i] = 0;
-            Level1_Ammo.right[i] = 0;
-            Level1_Ammo.flyHitCheck[i] = false;
+            AmmoBlu1.shooting[i] = 0;
+            AmmoBlu1.left[i] = 0;
+            AmmoBlu1.right[i] = 0;
+            AmmoBlu1.flyHitCheck[i] = false;
         }
     }
 }

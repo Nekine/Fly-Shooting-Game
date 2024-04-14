@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 
 
 public class CombatAircraft {
-    public Level1_Ammo ammo; 
+    public AmmoBlu1 ammo; 
     private aircraft_sounds aircraftDie;
     
     private Image[][] aircrafts;
@@ -34,7 +34,7 @@ public class CombatAircraft {
     public static int itemDie;
     
     public CombatAircraft() {
-        this.ammo = new Level1_Ammo();
+        this.ammo = new AmmoBlu1();
         this.aircraftDie = new aircraft_sounds();
         
         this.aircrafts = new Image[5][5];
@@ -72,7 +72,7 @@ public class CombatAircraft {
            this.ammo.paint(g);
         }
         else if(Map2.checkStart){
-           this.ammo.paint(g);
+           this.ammo.paint2(g);
         }
         else{}
         
@@ -107,7 +107,7 @@ public class CombatAircraft {
            this.ammo.paint(g);
         }
         else if(!CombatAircraft.checkDie && Map2.checkStart){
-           this.ammo.paint(g);
+           this.ammo.paint2(g);
         }
         else{}
     }
@@ -135,7 +135,7 @@ public class CombatAircraft {
             CombatAircraft.itemRight = 0;
             
             for(int i=0; i<8; i++){
-                Level1_Ammo.shooting[i] += 10;
+                AmmoBlu1.shooting[i] += 10;
             }
         }
     }
@@ -143,23 +143,23 @@ public class CombatAircraft {
     public void shootingAmmo(){
         for (int i = 0; i < 8; i++) {
             if (i == 0) {
-                Level1_Ammo.shooting[i] += 10;
+                AmmoBlu1.shooting[i] += 10;
 
-                if (Level1_Ammo.shooting[i]+CombatAircraft.GO_UP-CombatAircraft.GO_DOWN > 750) { // nếu đạn bay ra ngoài phạm vi màn hình thì sẽ sét giá trị về 0 để quay lại
-                    Level1_Ammo.shooting[i] = 0;
-                    Level1_Ammo.flyHitCheck[i] = false;
-                    Level1_Ammo.left[i] = CombatAircraft.GO_LEFT;
-                    Level1_Ammo.right[i] = CombatAircraft.GO_RIGHT;
+                if (AmmoBlu1.shooting[i]+CombatAircraft.GO_UP-CombatAircraft.GO_DOWN > 750) { // nếu đạn bay ra ngoài phạm vi màn hình thì sẽ sét giá trị về 0 để quay lại
+                    AmmoBlu1.shooting[i] = 0;
+                    AmmoBlu1.flyHitCheck[i] = false;
+                    AmmoBlu1.left[i] = CombatAircraft.GO_LEFT;
+                    AmmoBlu1.right[i] = CombatAircraft.GO_RIGHT;
                 }
             } else {
-                if (Level1_Ammo.shooting[i - 1] > 80 || Level1_Ammo.shooting[i] > 200) { // nếu bạn trước bay được 1 đoạn thì mới cho đạn sau bắn ra hoặc nếu khi đạn bay ra được 1 đoạn nhất định rồi
-                    Level1_Ammo.shooting[i] += 10;
+                if (AmmoBlu1.shooting[i - 1] > 80 || AmmoBlu1.shooting[i] > 200) { // nếu bạn trước bay được 1 đoạn thì mới cho đạn sau bắn ra hoặc nếu khi đạn bay ra được 1 đoạn nhất định rồi
+                    AmmoBlu1.shooting[i] += 10;
 
-                    if (Level1_Ammo.shooting[i]+CombatAircraft.GO_UP-CombatAircraft.GO_DOWN > 750) {
-                        Level1_Ammo.shooting[i] = 0;
-                        Level1_Ammo.flyHitCheck[i] = false;
-                        Level1_Ammo.left[i] = CombatAircraft.GO_LEFT;
-                        Level1_Ammo.right[i] = CombatAircraft.GO_RIGHT;
+                    if (AmmoBlu1.shooting[i]+CombatAircraft.GO_UP-CombatAircraft.GO_DOWN > 750) {
+                        AmmoBlu1.shooting[i] = 0;
+                        AmmoBlu1.flyHitCheck[i] = false;
+                        AmmoBlu1.left[i] = CombatAircraft.GO_LEFT;
+                        AmmoBlu1.right[i] = CombatAircraft.GO_RIGHT;
                     }
                 }
             }
