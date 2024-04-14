@@ -1,6 +1,5 @@
 package galacticskywars;
 
-import List_of_ammos.AmmoBlu1;
 import List_of_fighter_aircrafts.CombatAircraft;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -56,7 +55,7 @@ public class GameScreen extends JPanel implements Runnable {
     @Override
     public void run() {
         while (true) {
-            if(!CombatAircraft.checkDie){
+            if(CombatAircraft.itemDie < 7){
                 // chuyển item ảnh aircraft
                 long currentTimeMillis = Math.round((System.currentTimeMillis() % 1000)/ 100);
                 if(currentTimeMillis % 2 == 0){
@@ -67,7 +66,7 @@ public class GameScreen extends JPanel implements Runnable {
                     }
                 }
 
-                if(CombatAircraft.checkDie && currentTimeMillis % 3 == 0){
+                if(CombatAircraft.checkDie >= 3 && currentTimeMillis % 3 == 0){
                     if(CombatAircraft.itemDie<7){
                         CombatAircraft.itemDie++;
                     }
@@ -127,15 +126,26 @@ public class GameScreen extends JPanel implements Runnable {
                 if(Map1.checkStart){
                     this.start.aircraft.shootingAmmo();
                 }
+                
+                // ruôì bắn đạn
+                if(Level2_Flies.GO_DOWN >= 50){
+                    this.map2.fly.shootingAmmoFlies();
+                }
 
                 // kiểm tra đạn bắn trúng ruồi
                 if(!Map1.checkWin){
                     this.start.aircraft.ammo.bulletHitsFly1();
                 }
+                else if(!Map2.checkWin){
+                    this.start.aircraft.ammo.bulletHitsFly2();
+                }
 
                 // kiểm tra máy bay bị chết
                 if(!Map1.checkWin){
-                    this.start.aircraft.checkDieAircraft();
+                    this.start.aircraft.checkDieAircraft1();
+                }
+                else if(!Map2.checkWin && Map2.checkStart){
+                    this.start.aircraft.checkDieAircraft2();
                 }
                 
                 // kiểm tra thắng màn chơi

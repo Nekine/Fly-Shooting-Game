@@ -4,6 +4,7 @@ import List_of_ammos.*;
 import List_of_game_maps.*;
 import List_of_sounds.aircraft_sounds;
 import List_of_space_flies.Level1_Flies;
+import List_of_space_flies.Level2_Flies;
 import galacticskywars.GameScreen;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -26,7 +27,7 @@ public class CombatAircraft {
     public static int GO_RIGHT = 0;
     
     public static int checkMove;
-    public static boolean checkDie;
+    public static int checkDie;
     public static int index;
     public static int item;
     public static int itemLeft;
@@ -48,7 +49,7 @@ public class CombatAircraft {
         CombatAircraft.itemLeft = 0;
         CombatAircraft.itemRight = 0;
         CombatAircraft.itemDie = 0;
-        CombatAircraft.checkDie = false;
+        CombatAircraft.checkDie = 0;
         
         for(int j=0; j<5; j++){
             for(int i=0; i<5; i++){
@@ -80,7 +81,7 @@ public class CombatAircraft {
             g.drawImage(this.aircrafts[CombatAircraft.index][CombatAircraft.item], 430, 460, 120, 90, null);
         }
         else{
-            if(CombatAircraft.checkDie){
+            if(CombatAircraft.checkDie >= 3){
                 this.aircraftDie.aircraftDieSound();
                 g.drawImage(this.die[CombatAircraft.itemDie], 430-CombatAircraft.GO_LEFT+CombatAircraft.GO_RIGHT, 700-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN, 100, 100, null);
             } else {
@@ -103,10 +104,10 @@ public class CombatAircraft {
             g.drawImage(this.aircrafts[CombatAircraft.index][CombatAircraft.item], 430-CombatAircraft.GO_LEFT+CombatAircraft.GO_RIGHT, 700-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN, 90, 67, null);
         }
         // Ammo
-        if(!CombatAircraft.checkDie && !Map1.checkWin){
+        if(CombatAircraft.checkDie < 3 && !Map1.checkWin){
            this.ammo.paint(g);
         }
-        else if(!CombatAircraft.checkDie && Map2.checkStart){
+        else if(CombatAircraft.checkDie < 3 && Map2.checkStart){
            this.ammo.paint2(g);
         }
         else{}
@@ -166,7 +167,7 @@ public class CombatAircraft {
         }
     }
     
-    public void checkDieAircraft(){
+    public void checkDieAircraft1(){
         int xAircraft = 430-CombatAircraft.GO_LEFT+CombatAircraft.GO_RIGHT;
         int yAircraft = 700-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN;
         
@@ -183,8 +184,23 @@ public class CombatAircraft {
                 }
                 
                 if(((xFly+70>xAircraft && xFly+70<xAircraft+80) || (xFly<=xAircraft+80 && xFly>=xAircraft)) && (yFly+60>=yAircraft)){
-                    CombatAircraft.checkDie = true;
+                    CombatAircraft.checkDie += 2;
                 }   
+            }
+        }
+    }
+    
+    public void checkDieAircraft2(){
+        int xAircraft = 430-CombatAircraft.GO_LEFT+CombatAircraft.GO_RIGHT;
+        int yAircraft = 700-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN;
+        
+        for(int i=0; i<8; i++){
+            int xAmmo = 60+i*120;
+            int yAmmo = Level2_Flies.GO_DOWN+Level2_Flies.shooting[Level2_Flies.fliesShootingBullets[i]];
+            
+            if((xAmmo+20<=xAircraft+60 && xAmmo>=xAircraft) && (yAmmo+20>=yAircraft && yAmmo<=yAircraft+60)){
+                CombatAircraft.checkDie++;
+                Level2_Flies.aircraftHitCheck[i] = true;
             }
         }
     }

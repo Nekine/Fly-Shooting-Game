@@ -6,7 +6,7 @@ import java.awt.Image;
 import java.io.File;
 import javax.imageio.ImageIO;
 import List_of_sounds.*;
-import List_of_space_flies.Level1_Flies;
+import List_of_space_flies.*;
 
 public class AmmoBlu1 {
     private Image ammo[][][];
@@ -110,6 +110,36 @@ public class AmmoBlu1 {
                 
                 if(xAmmo>=xFly && xAmmo<=xFly+60 && yAmmo<=yFly+60 && Level1_Flies.checkDie[j]<3 && !AmmoBlu1.flyHitCheck[i]){
                     Level1_Flies.checkDie[j]++;
+                    AmmoBlu1.flyHitCheck[i] = true;
+                    break;
+                }
+            }
+        }
+    }
+    
+    public void bulletHitsFly2(){        
+        for(int i=0; i<8; i++){
+            int xAmmo = 465-AmmoBlu1.left[i]+AmmoBlu1.right[i]-10;
+            int yAmmo = 650-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN-AmmoBlu1.shooting[i];
+            
+            for(int j=23; j>=0; j--){
+                int xFly;
+                int yFly;
+                if(j < 8){
+                    xFly = 30+j*120;
+                    yFly = Level2_Flies.GO_DOWN;
+                }
+                else if(j < 16) {
+                    xFly = 30+(j-8)*120;
+                    yFly = Level2_Flies.GO_DOWN+90;
+                }
+                else{
+                    xFly = 30+(j-16)*120;
+                    yFly = Level2_Flies.GO_DOWN+180;
+                }
+                
+                if(xAmmo>=xFly && xAmmo<=xFly+80 && yAmmo<=yFly+80 && Level2_Flies.checkDie[j]<6 && !AmmoBlu1.flyHitCheck[i]){
+                    Level2_Flies.checkDie[j] += 3;
                     AmmoBlu1.flyHitCheck[i] = true;
                     break;
                 }

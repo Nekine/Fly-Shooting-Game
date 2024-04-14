@@ -45,6 +45,7 @@ public class Map2 {
             }
             else{
                 this.fly.paint(g);
+                this.fly.paintAmmoFly(g);
             }
         }
     }

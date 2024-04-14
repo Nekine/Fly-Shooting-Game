@@ -3,6 +3,7 @@ package List_of_space_flies;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
+import java.util.Random;
 import javax.imageio.ImageIO;
 
 
@@ -16,13 +17,19 @@ public class Level2_Flies {
     public static int GO_DOWN;
     
     public static int checkDie[];
+    public static int shooting[];
+    public static int fliesShootingBullets[];
+    public static boolean aircraftHitCheck[];
     
     public Level2_Flies(){
         this.flyDown = new Image[4][5];
         this.flyIdle = new Image[4][6];
         this.ammoFly = new Image[24];
+        Level2_Flies.aircraftHitCheck = new boolean[8];
+        Level2_Flies.fliesShootingBullets = new int[8];
         
         Level2_Flies.checkDie = new int[24];
+        Level2_Flies.shooting = new int[24];
         
         Level2_Flies.GO_DOWN = 0;
         Level2_Flies.itemIdle = 0;
@@ -30,9 +37,15 @@ public class Level2_Flies {
         
         for(int i=0; i<24; i++){
             Level2_Flies.checkDie[i] = 0;
+            Level2_Flies.shooting[i] = 0;
             try{
                 this.ammoFly[i] = ImageIO.read(new File("S675/EnemyBullet.png"));
             }catch(Exception e){}
+        }
+        
+        for(int i=0; i<8; i++){
+            Level2_Flies.fliesShootingBullets[i] = i;    
+            Level2_Flies.aircraftHitCheck[i] = false;
         }
        
         for(int i=0; i<4; i++){
@@ -51,24 +64,24 @@ public class Level2_Flies {
         for(int i=0; i<8; i++){
             if(i<4){
                 if(Level2_Flies.checkDie[i] < 6){
-                    g.drawImage(this.flyIdle[i][Level2_Flies.itemIdle], 60+i*110, Level2_Flies.GO_DOWN, 90, 70, null);
+                    g.drawImage(this.flyIdle[i][Level2_Flies.itemIdle], 30+i*120, Level2_Flies.GO_DOWN, 90, 70, null);
                 }
                 if(Level2_Flies.checkDie[i+8] < 6){
-                    g.drawImage(this.flyIdle[3-i][Level2_Flies.itemIdle], 60+i*110, Level2_Flies.GO_DOWN+90, 90, 70, null);
+                    g.drawImage(this.flyIdle[3-i][Level2_Flies.itemIdle], 30+i*120, Level2_Flies.GO_DOWN+90, 90, 70, null);
                 }
                 if(Level2_Flies.checkDie[i+16] < 6){
-                    g.drawImage(this.flyIdle[i][Level2_Flies.itemIdle], 60+i*110, Level2_Flies.GO_DOWN+180, 90, 70, null);
+                    g.drawImage(this.flyIdle[i][Level2_Flies.itemIdle], 30+i*120, Level2_Flies.GO_DOWN+180, 90, 70, null);
                 }
             }
             else {
                 if(Level2_Flies.checkDie[i] < 6){
-                    g.drawImage(this.flyIdle[i%4][Level2_Flies.itemIdle], 60+i*110, Level2_Flies.GO_DOWN, 90, 70, null);
+                    g.drawImage(this.flyIdle[i%4][Level2_Flies.itemIdle], 30+i*120, Level2_Flies.GO_DOWN, 90, 70, null);
                 }
                 if(Level2_Flies.checkDie[i+8] < 6){
-                    g.drawImage(this.flyIdle[3-(i%4)][Level2_Flies.itemIdle], 60+i*110, Level2_Flies.GO_DOWN+90, 90, 70, null);
+                    g.drawImage(this.flyIdle[3-(i%4)][Level2_Flies.itemIdle], 30+i*120, Level2_Flies.GO_DOWN+90, 90, 70, null);
                 }
                 if(Level2_Flies.checkDie[i+16] < 6){
-                    g.drawImage(this.flyIdle[i%4][Level2_Flies.itemIdle], 60+i*110, Level2_Flies.GO_DOWN+180, 90, 70, null);
+                    g.drawImage(this.flyIdle[i%4][Level2_Flies.itemIdle], 30+i*120, Level2_Flies.GO_DOWN+180, 90, 70, null);
                 }
             }
         }
@@ -78,27 +91,74 @@ public class Level2_Flies {
         for(int i=0; i<8; i++){
             if(i<4){
                 if(Level2_Flies.checkDie[i] < 6){
-                    g.drawImage(this.flyDown[i][Level2_Flies.itemDown], 60+i*110, Level2_Flies.GO_DOWN, 90, 70, null);
+                    g.drawImage(this.flyDown[i][Level2_Flies.itemDown], 30+i*120, Level2_Flies.GO_DOWN, 90, 70, null);
                 }
                 if(Level2_Flies.checkDie[i+8] < 6){
-                    g.drawImage(this.flyDown[3-i][Level2_Flies.itemDown], 60+i*110, Level2_Flies.GO_DOWN+90, 90, 70, null);
+                    g.drawImage(this.flyDown[3-i][Level2_Flies.itemDown], 30+i*120, Level2_Flies.GO_DOWN+90, 90, 70, null);
                 }
                 if(Level2_Flies.checkDie[i+16] < 6){
-                    g.drawImage(this.flyDown[i][Level2_Flies.itemDown], 60+i*110, Level2_Flies.GO_DOWN+180, 90, 70, null);
+                    g.drawImage(this.flyDown[i][Level2_Flies.itemDown], 30+i*120, Level2_Flies.GO_DOWN+180, 90, 70, null);
                 }
             }
             else {
                 if(Level2_Flies.checkDie[i] < 6){
-                    g.drawImage(this.flyDown[i%4][Level2_Flies.itemDown], 60+i*110, Level2_Flies.GO_DOWN, 90, 70, null);
+                    g.drawImage(this.flyDown[i%4][Level2_Flies.itemDown], 30+i*120, Level2_Flies.GO_DOWN, 90, 70, null);
                 }
                 if(Level2_Flies.checkDie[i+8] < 6){
-                    g.drawImage(this.flyDown[3-(i%4)][Level2_Flies.itemDown], 60+i*110, Level2_Flies.GO_DOWN+90, 90, 70, null);
+                    g.drawImage(this.flyDown[3-(i%4)][Level2_Flies.itemDown], 30+i*120, Level2_Flies.GO_DOWN+90, 90, 70, null);
                 }
                 if(Level2_Flies.checkDie[i+16] < 6){
-                    g.drawImage(this.flyDown[i%4][Level2_Flies.itemDown], 60+i*110, Level2_Flies.GO_DOWN+180, 90, 70, null);
+                    g.drawImage(this.flyDown[i%4][Level2_Flies.itemDown], 30+i*120, Level2_Flies.GO_DOWN+180, 90, 70, null);
                 }
             }
         }
+    }
+    
+    public void paintAmmoFly(Graphics g){
+        for(int i=0; i<8; i++){
+            if(Level2_Flies.fliesShootingBullets[i] < 8){
+                g.drawImage(this.ammoFly[Level2_Flies.fliesShootingBullets[i]], 60+i*120, Level2_Flies.GO_DOWN+Level2_Flies.shooting[Level2_Flies.fliesShootingBullets[i]], 30, 30, null);
+            }
+            else if(Level2_Flies.fliesShootingBullets[i] < 16){
+                g.drawImage(this.ammoFly[Level2_Flies.fliesShootingBullets[i]], 60+i*120, Level2_Flies.GO_DOWN+90+Level2_Flies.shooting[Level2_Flies.fliesShootingBullets[i]], 30, 30, null);
+            }
+            else{
+                g.drawImage(this.ammoFly[Level2_Flies.fliesShootingBullets[i]], 60+i*120, Level2_Flies.GO_DOWN+180+Level2_Flies.shooting[Level2_Flies.fliesShootingBullets[i]], 30, 30, null);
+            }
+        }
+    }
+    
+    public void shootingAmmoFlies(){
+        for(int i=0; i<8; i++){
+            if(Level2_Flies.shooting[Level2_Flies.fliesShootingBullets[i]] < 700 && !Level2_Flies.aircraftHitCheck[i]){
+                Level2_Flies.shooting[Level2_Flies.fliesShootingBullets[i]] += 5;
+            } 
+            else{
+                Level2_Flies.aircraftHitCheck[i] = false;
+                Level2_Flies.shooting[Level2_Flies.fliesShootingBullets[i]] = 0;
+                this.randomFliy(i);
+            }
+        }
+    }
+    
+    private void randomFliy(int index){
+        Random random = new Random();
+            while(true){
+                boolean check = false;
+                int randomNumber = random.nextInt(24);
+                
+                for(int j=0; j<6; j++){
+                    if(randomNumber == Level2_Flies.fliesShootingBullets[j] || Level2_Flies.checkDie[randomNumber] >= 6){
+                        check = true;
+                        break;
+                    }
+                }
+                
+                if(!check){
+                    Level2_Flies.fliesShootingBullets[index] = randomNumber;
+                    break;
+                }
+            }
     }
     
     public void moveFlies(){
