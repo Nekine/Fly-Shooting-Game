@@ -64,7 +64,7 @@ public class Map1 {
         }
     }
     
-    public void firstRound(Graphics g){
+    private void firstRound(Graphics g){
         this.fly.paint(g);
         
         boolean check = false;

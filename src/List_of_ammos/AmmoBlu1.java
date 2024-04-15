@@ -92,6 +92,31 @@ public class AmmoBlu1 {
         }
     }
     
+    public void paint3(Graphics g){
+        for(int i=0; i<8; i++){ 
+            if(AmmoBlu1.shooting[i] == 0){
+                this.gunshot.gunshotSound();
+            }
+            
+            if(i == 0){
+                if(!AmmoBlu1.flyHitCheck[i]){
+                    g.drawImage(this.ammo[AmmoBlu1.index][AmmoBlu1.item][i], 465-AmmoBlu1.left[i]+AmmoBlu1.right[i]-15, 650-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN-AmmoBlu1.shooting[i], 20, 60, null);
+                    g.drawImage(this.ammo[AmmoBlu1.index][AmmoBlu1.item][i], 465-AmmoBlu1.left[i]+AmmoBlu1.right[i], 650-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN-AmmoBlu1.shooting[i], 20, 60, null);
+                    g.drawImage(this.ammo[AmmoBlu1.index][AmmoBlu1.item][i], 465-AmmoBlu1.left[i]+AmmoBlu1.right[i]+15, 650-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN-AmmoBlu1.shooting[i], 20, 60, null);
+                }
+            }
+            else{
+                if(AmmoBlu1.shooting[i-1] > 70 || AmmoBlu1.shooting[i] > 200){
+                    if(!AmmoBlu1.flyHitCheck[i]){
+                        g.drawImage(this.ammo[AmmoBlu1.index][AmmoBlu1.item][i], 465-AmmoBlu1.left[i]+AmmoBlu1.right[i]-15, 650-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN-AmmoBlu1.shooting[i], 20, 60, null);
+                        g.drawImage(this.ammo[AmmoBlu1.index][AmmoBlu1.item][i], 465-AmmoBlu1.left[i]+AmmoBlu1.right[i], 650-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN-AmmoBlu1.shooting[i], 20, 60, null);
+                        g.drawImage(this.ammo[AmmoBlu1.index][AmmoBlu1.item][i], 465-AmmoBlu1.left[i]+AmmoBlu1.right[i]+15, 650-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN-AmmoBlu1.shooting[i], 20, 60, null);
+                    }
+                }
+            }
+        }
+    }
+    
     public void bulletHitsFly1(){        
         for(int i=0; i<8; i++){
             int xAmmo = 465-AmmoBlu1.left[i]+AmmoBlu1.right[i];
@@ -142,6 +167,28 @@ public class AmmoBlu1 {
                     Level2_Flies.checkDie[j] += 3;
                     AmmoBlu1.flyHitCheck[i] = true;
                     break;
+                }
+            }
+        }
+    }
+    
+    public void bulletHitsMeteorite3(){
+        for(int i=0; i<8; i++){
+            int xAmmo = 465-AmmoBlu1.left[i]+AmmoBlu1.right[i]-15;
+            int yAmmo = 650-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN-AmmoBlu1.shooting[i];
+            
+            for(int j=0; j<5; j++){
+                for(int z=0; z<6; z++){
+                    int xMeteorite = 60+z*150;
+                    int yMeteorite = Level3_MeteoriteChunks.GO_DOWN[j];
+                    
+                    if(Level3_MeteoriteChunks.GO_DOWN[j] > -20){
+                        if(xAmmo>=xMeteorite && xAmmo<=xMeteorite+Level3_MeteoriteChunks.size[z+j*6]*50 && yAmmo<=yMeteorite+Level3_MeteoriteChunks.size[z+j*6]*50-20 && Level3_MeteoriteChunks.checkDie[z+j*6]<4 && !AmmoBlu1.flyHitCheck[i]){
+                            Level3_MeteoriteChunks.checkDie[z+j*6]++;
+                            AmmoBlu1.flyHitCheck[i] = true;
+                            break;
+                        }
+                    }
                 }
             }
         }

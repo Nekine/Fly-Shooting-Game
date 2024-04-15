@@ -17,6 +17,8 @@ public class GameScreen extends JPanel implements Runnable {
     private Image background;
     private Map1 map1;
     private Map2 map2;
+    private Map3 map3;
+    private Map4 map4;
 
     public StartScreen start;
     public static boolean checkPlay;
@@ -26,6 +28,8 @@ public class GameScreen extends JPanel implements Runnable {
         this.start = new StartScreen();
         this.map1 = new Map1();
         this.map2 = new Map2();
+        this.map3 = new Map3();
+        this.map4 = new Map4();
         GameScreen.checkPlay = false;
         this.setBounds(0, 0, 1000, 800); // khai báo kích thước của Jpanel
         thread.start();
@@ -39,8 +43,14 @@ public class GameScreen extends JPanel implements Runnable {
         if (GameScreen.checkPlay && !Map1.switch_to_map2) {
             this.map1.paint(g);
         }
-        else if(GameScreen.checkPlay && Map1.switch_to_map2){
+        else if(Map1.switch_to_map2 && !Map2.switch_to_map3){
             this.map2.paint(g);
+        }
+        else if(Map2.switch_to_map3 && !Map3.switch_to_map4){
+            this.map3.paint(g);
+        }
+        else if(Map3.switch_to_map4 && !Map4.switch_to_map5){
+            this.map4.paint(g);
         }
     }
 
@@ -107,7 +117,12 @@ public class GameScreen extends JPanel implements Runnable {
                 else if(Map1.switch_to_map2 && !Map2.checkStart){
                     this.map2.startGame();
                 }
-                
+                else if(Map2.switch_to_map3 && !Map3.checkStart){
+                    this.map3.startGame();
+                }
+                else if(Map3.switch_to_map4 && !Map4.checkStart){
+                    this.map4.startGame();
+                }
 
                 // di chuyển ruồi khi start game
                 if(Map1.checkStart && !Map1.checkWin){
@@ -115,6 +130,9 @@ public class GameScreen extends JPanel implements Runnable {
                 }
                 else if(Map2.checkStart && !Map2.checkWin){
                     this.map2.fly.moveFlies();
+                }
+                else if(Map3.checkStart && !Map3.checkWin){
+                    this.map3.meteorite.moveMeteorite();
                 }
 
                 // di chuyển máy bay
@@ -136,8 +154,11 @@ public class GameScreen extends JPanel implements Runnable {
                 if(!Map1.checkWin){
                     this.start.aircraft.ammo.bulletHitsFly1();
                 }
-                else if(!Map2.checkWin){
+                else if(!Map2.checkWin && Map2.checkStart){
                     this.start.aircraft.ammo.bulletHitsFly2();
+                }
+                else if(!Map3.checkWin && Map3.checkStart){
+                    this.start.aircraft.ammo.bulletHitsMeteorite3();
                 }
 
                 // kiểm tra máy bay bị chết
@@ -147,10 +168,19 @@ public class GameScreen extends JPanel implements Runnable {
                 else if(!Map2.checkWin && Map2.checkStart){
                     this.start.aircraft.checkDieAircraft2();
                 }
+                else if(!Map3.checkWin && Map3.checkStart){
+                    this.start.aircraft.checkDieAircraft3();
+                }
                 
                 // kiểm tra thắng màn chơi
                 if(Map1.checkStart && Map1.checkWin && !Map1.switch_to_map2){
                     this.map1.win();
+                }
+                else if(Map2.checkStart && Map2.checkWin && !Map2.switch_to_map3){
+                    this.map2.win();
+                }
+                else if(Map3.checkStart && Map3.checkWin && !Map3.switch_to_map4){
+                    this.map3.win();
                 }
                 
             }

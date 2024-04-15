@@ -2,33 +2,34 @@ package List_of_game_maps;
 
 import List_of_ammos.AmmoBlu1;
 import List_of_fighter_aircrafts.*;
-import List_of_space_flies.Level2_Flies;
+import List_of_space_flies.*;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import javax.imageio.ImageIO;
 
 
-public class Map2 {
+public class Map3 {
     private Image background;
     private CombatAircraft aircraft;
     
-    public Level2_Flies fly;
+    public Level3_MeteoriteChunks meteorite;
     
     public static boolean checkStart;
     public static boolean checkWin;
-    public static boolean switch_to_map3;
+    public static boolean switch_to_map4;
+    public static int count;
     
-    public Map2(){
-        Map2.checkStart = false;
-        Map2.checkWin = false;
-        Map2.switch_to_map3 = false;
+    public Map3(){
+        Map3.checkStart = false;
+        Map3.checkWin = false;
+        Map3.switch_to_map4 = false;
+        Map3.count = 0;
         
         this.aircraft = new CombatAircraft();
-        this.fly = new Level2_Flies();
-        
+        this.meteorite = new Level3_MeteoriteChunks();
         try{
-            this.background = ImageIO.read(new File("S675/World3_BG1.png"));
+            this.background = ImageIO.read(new File("S675/planet1_BG2.png"));
         }catch(Exception e){}
     }
     
@@ -42,8 +43,8 @@ public class Map2 {
             this.aircraft.painMove(g);
         }
         
-        if(Map2.checkStart){
-            this.secondRound(g);
+        if(Map3.checkStart){
+            this.thirdRound(g);
         }
     }
     
@@ -51,35 +52,23 @@ public class Map2 {
         CombatAircraft.GO_LEFT = 0;
         CombatAircraft.GO_RIGHT = 0;
         
-        if (Map1.switch_to_map2) {
+        if (Map2.switch_to_map3) {
             if (CombatAircraft.GO_UP < 70) {
                 CombatAircraft.GO_UP += 5;
             }
 
             if (CombatAircraft.GO_UP == 70) {
-                Map2.checkStart = true;   
-                Map2.checkWin = true; // NOTE
+                Map3.checkStart = true;   
+                Map3.checkWin = true; // NOTE
             }
         }
     }
     
-    private void secondRound(Graphics g){
-        if(Level2_Flies.GO_DOWN < 50){
-                this.fly.paintMove(g);
-            }
-            else{
-                this.fly.paint(g);
-                this.fly.paintAmmoFly(g);
-        }
-        
-        boolean check = false;
-        for(int i=0; i<24; i++){
-            if(Level2_Flies.checkDie[i] < 6){
-                check = true;
-            }
-        }
-        if(!check){
-            Map2.checkWin = true;
+    private void thirdRound(Graphics g){
+        this.meteorite.paint(g);
+       
+        if(Map3.count >= 20){
+            Map3.checkWin =  true;
         }
     }
     
@@ -88,7 +77,7 @@ public class Map2 {
             CombatAircraft.GO_UP += 15;
         }
         else{
-            Map2.switch_to_map3 = true;
+            Map3.switch_to_map4 = true;
             CombatAircraft.GO_UP = 0;
             CombatAircraft.GO_DOWN = 0;
         }
