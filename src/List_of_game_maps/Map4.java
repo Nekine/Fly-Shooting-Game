@@ -12,6 +12,8 @@ import javax.imageio.ImageIO;
 public class Map4 {
     private Image background;
     private CombatAircraft aircraft;
+    
+    public Level4_FinalBoss boss;
         
     public static boolean checkStart;
     public static boolean checkWin;
@@ -21,6 +23,8 @@ public class Map4 {
         Map4.checkStart = false;
         Map4.checkWin = false;
         Map4.switch_to_map5 = false;
+        
+        this.boss = new Level4_FinalBoss();
         
         this.aircraft = new CombatAircraft();
         try{
@@ -54,14 +58,17 @@ public class Map4 {
 
             if (CombatAircraft.GO_UP == 70) {
                 Map4.checkStart = true;   
-               // Map3.checkWin = true; // NOTE
             }
         }
     }
     
     private void fourthRound(Graphics g){
+       this.boss.paint(g);
        
-        
+       // vẽ đạn Boss
+        if(Level4_FinalBoss.DO_DOWN >= 30){
+            this.boss.paintAmmoFly(g);
+        }
     }
     
     public void win(){

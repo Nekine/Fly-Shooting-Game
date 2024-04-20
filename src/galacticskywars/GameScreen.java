@@ -109,6 +109,14 @@ public class GameScreen extends JPanel implements Runnable {
                             }
                         }
                     }
+                    else if(!Map4.checkWin){
+                        if(Level4_FinalBoss.item == 7){
+                            Level4_FinalBoss.item = 0;
+                        }
+                        else{
+                            Level4_FinalBoss.item++;
+                        }
+                    }
                 }
                 // di chuyển may bay khi start game
                 if(!Map1.checkWin){
@@ -134,6 +142,9 @@ public class GameScreen extends JPanel implements Runnable {
                 else if(Map3.checkStart && !Map3.checkWin){
                     this.map3.meteorite.moveMeteorite();
                 }
+                else if(Map4.checkStart && !Map4.checkWin){
+                    this.map4.boss.moveFly();
+                }
 
                 // di chuyển máy bay
                 if(Map1.checkStart){
@@ -148,6 +159,9 @@ public class GameScreen extends JPanel implements Runnable {
                 // ruôì bắn đạn
                 if(Level2_Flies.GO_DOWN >= 50){
                     this.map2.fly.shootingAmmoFlies();
+                }
+                else if(Level4_FinalBoss.DO_DOWN >= 30){
+                    this.map4.boss.shootingAmmo();
                 }
 
                 // kiểm tra đạn bắn trúng ruồi
