@@ -174,6 +174,9 @@ public class GameScreen extends JPanel implements Runnable {
                 else if(!Map3.checkWin && Map3.checkStart){
                     this.start.aircraft.ammo.bulletHitsMeteorite3();
                 }
+                else if(!Map4.checkWin && Map4.checkStart){
+                    this.start.aircraft.ammo.bulletHitsFly4();
+                }
 
                 // kiểm tra máy bay bị chết
                 if(!Map1.checkWin){
@@ -185,16 +188,22 @@ public class GameScreen extends JPanel implements Runnable {
                 else if(!Map3.checkWin && Map3.checkStart){
                     this.start.aircraft.checkDieAircraft3();
                 }
+                else if(!Map4.checkWin && Map4.checkStart){
+                    this.start.aircraft.checkDieAircraft4();
+                }
                 
                 // kiểm tra thắng màn chơi
-                if(Map1.checkStart && Map1.checkWin && !Map1.switch_to_map2){
+                if(Map1.checkWin && !Map1.switch_to_map2){
                     this.map1.win();
                 }
-                else if(Map2.checkStart && Map2.checkWin && !Map2.switch_to_map3){
+                else if(Map2.checkWin && !Map2.switch_to_map3){
                     this.map2.win();
                 }
-                else if(Map3.checkStart && Map3.checkWin && !Map3.switch_to_map4){
+                else if(Map3.checkWin && !Map3.switch_to_map4){
                     this.map3.win();
+                }
+                else  if(Map4.checkWin && !Map4.switch_to_map5){
+                    this.map4.win();
                 }
                 
             }

@@ -126,23 +126,31 @@ public class CombatAircraft {
     
     public void moveToThePlane(){
         if (CombatAircraft.checkMove == 1) {
-            CombatAircraft.GO_LEFT += 10;
+            if(430-CombatAircraft.GO_LEFT+CombatAircraft.GO_RIGHT > 0){
+                CombatAircraft.GO_LEFT += 10;
+            }
             if (CombatAircraft.itemLeft < 4) {
                 CombatAircraft.itemLeft++;
             }
             CombatAircraft.itemRight = 0;
         } else if (CombatAircraft.checkMove == 2) {
-            CombatAircraft.GO_RIGHT += 10;
+            if(430-CombatAircraft.GO_LEFT+CombatAircraft.GO_RIGHT < 1000-60){
+                CombatAircraft.GO_RIGHT += 10;
+            }
             if (CombatAircraft.itemRight < 4) {
                 CombatAircraft.itemRight++;
             }
             CombatAircraft.itemLeft = 0;
         } else if (CombatAircraft.checkMove == 3) {
-            CombatAircraft.GO_UP += 10;
+            if(700-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN > 0){
+                CombatAircraft.GO_UP += 10;
+            }
             CombatAircraft.itemLeft = 0;
             CombatAircraft.itemRight = 0;
         } else if (CombatAircraft.checkMove == 4) {
-            CombatAircraft.GO_DOWN += 10;
+            if(700-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN < 800-60){
+                CombatAircraft.GO_DOWN += 10;
+            }
             CombatAircraft.itemLeft = 0;
             CombatAircraft.itemRight = 0;
             
@@ -205,11 +213,21 @@ public class CombatAircraft {
         int xAircraft = 430-CombatAircraft.GO_LEFT+CombatAircraft.GO_RIGHT;
         int yAircraft = 700-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN;
         
-        for(int i=0; i<8; i++){
-            int xAmmo = 60+i*120;
-            int yAmmo = Level2_Flies.GO_DOWN+Level2_Flies.shooting[Level2_Flies.fliesShootingBullets[i]];
+        for(int i=0; i<Level2_Flies.countFlies; i++){
+            int xAmmo;
+            int yAmmo = Level2_Flies.GO_DOWN+Level2_Flies.shooting[i];
             
-            if((xAmmo+10<=xAircraft+70 && xAmmo>=xAircraft) && (yAmmo>=yAircraft && yAmmo+10<=yAircraft+60)){
+            if(Level2_Flies.fliesShootingBullets[i] < 8){
+                xAmmo = 60+Level2_Flies.fliesShootingBullets[i]*120;
+            }
+            else if(Level2_Flies.fliesShootingBullets[i] < 16){
+                xAmmo = 60+(Level2_Flies.fliesShootingBullets[i]/8)*120;
+            }
+            else{
+                xAmmo = 60+(Level2_Flies.fliesShootingBullets[i]/16)*120;
+            }
+            
+            if((xAmmo+10<=xAircraft+70 && xAmmo>=xAircraft) && (yAmmo+10>=yAircraft && yAmmo+10<=yAircraft+60)){
                 CombatAircraft.checkDie++;
                 Level2_Flies.aircraftHitCheck[i] = true;
             }
@@ -225,12 +243,27 @@ public class CombatAircraft {
                     int xMeteorite = 60+z*150;
                     int yMeteorite = Level3_MeteoriteChunks.GO_DOWN[j];
                     
-                    if(xAircraft>=xMeteorite && xAircraft<=xMeteorite+Level3_MeteoriteChunks.size[z+j*6]*50 && yAircraft<=yMeteorite+Level3_MeteoriteChunks.size[z+j*6]*50-20){
+                    if(xAircraft>=xMeteorite && xAircraft<=xMeteorite+Level3_MeteoriteChunks.size[z+j*6]*50 && yAircraft<=yMeteorite+Level3_MeteoriteChunks.size[z+j*6]*50-20 && Level3_MeteoriteChunks.checkDie[z+j*6] < 4){
                             CombatAircraft.checkDie = 3;
                             return;
                         }
                 }
             }
+    }
+    
+    public void checkDieAircraft4(){
+        int xAircraft = 430-CombatAircraft.GO_LEFT+CombatAircraft.GO_RIGHT;
+        int yAircraft = 700-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN;
+        
+        for(int i=0; i<4; i++){
+            int xAmmo = Level4_FinalBoss.xAmmo[i];
+            int yAmmo = Level4_FinalBoss.yAmmo[i];
+            
+            if((xAmmo+50<=xAircraft+70 && xAmmo>=xAircraft) && (yAmmo+20>=yAircraft && yAmmo+50<=yAircraft+60)){
+                CombatAircraft.checkDie++;
+                Level4_FinalBoss.aircraftHitCheck[i] = true;
+            }
+        }
     }
 }
 

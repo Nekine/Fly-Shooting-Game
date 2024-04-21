@@ -193,4 +193,18 @@ public class AmmoBlu1 {
             }
         }
     }
+    
+    public void bulletHitsFly4(){        
+        for(int i=0; i<8; i++){
+            int xAmmo = 465-AmmoBlu1.left[i]+AmmoBlu1.right[i]-15;
+            int yAmmo = 650-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN-AmmoBlu1.shooting[i];
+            
+            int xBoss = 170 + 180;
+            int yBoss = Level4_FinalBoss.DO_DOWN;
+            if(xAmmo>=xBoss && xAmmo<=xBoss+300 && yAmmo<=yBoss+170 && Level4_FinalBoss.checkDie < 100 && !AmmoBlu1.flyHitCheck[i]){
+                    Level4_FinalBoss.checkDie += 1;
+                    AmmoBlu1.flyHitCheck[i] = true;
+            }
+        }
+    }
 }

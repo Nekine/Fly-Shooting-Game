@@ -66,7 +66,7 @@ public class Level3_MeteoriteChunks {
                 Map3.count++;
             }
             else{
-                Level3_MeteoriteChunks.GO_DOWN[i]++;
+                Level3_MeteoriteChunks.GO_DOWN[i] += 7;
             }
         }   
     }

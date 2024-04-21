@@ -66,8 +66,13 @@ public class Map4 {
        this.boss.paint(g);
        
        // vẽ đạn Boss
-        if(Level4_FinalBoss.DO_DOWN >= 30){
+        if(Level4_FinalBoss.DO_DOWN >= 30 && !Map4.checkWin){
             this.boss.paintAmmoFly(g);
+        }
+        
+        // check Win
+        if(Level4_FinalBoss.checkDie >= 100){
+            Map4.checkWin = true;
         }
     }
     
