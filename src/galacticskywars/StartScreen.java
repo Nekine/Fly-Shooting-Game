@@ -2,6 +2,7 @@
 package galacticskywars;
 
 import List_of_fighter_aircrafts.CombatAircraft;
+import List_of_game_maps.Map4;
 import List_of_sounds.*;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -36,7 +37,9 @@ public class StartScreen{
         g.drawImage(this.welcomeGame, 190, 50, 600, 400, null);
         g.drawImage(this.prevIcon, 360, 500, 30, 40, null);
         g.drawImage(this.nextIcon, 590, 500, 30, 40, null);
-        g.drawImage(this.playButton, 430, 600, 120, 60, null);
+        if(!Map4.switch_to_map5){
+            g.drawImage(this.playButton, 430, 600, 120, 60, null);
+        }
         this.aircraft.paint(g);
     }
        

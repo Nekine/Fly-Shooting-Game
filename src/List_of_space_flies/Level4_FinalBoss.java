@@ -1,6 +1,7 @@
 package List_of_space_flies;
 
 import List_of_fighter_aircrafts.CombatAircraft;
+import List_of_sounds.*;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
@@ -10,12 +11,15 @@ import javax.imageio.ImageIO;
 public class Level4_FinalBoss {
     private Image boss[];
     private Image ammoBoss[];
+    private Image bossDie[];
     private int xAircraft[];
     private int yAircraft[];
+    private sounds_Map4 sounds;
     
     public static int DO_DOWN;
     public static int checkDie;
     public static int item;
+    public static int itemDie;
     
     public static int yAmmo[];
     public static int xAmmo[];
@@ -25,9 +29,12 @@ public class Level4_FinalBoss {
         Level4_FinalBoss.DO_DOWN = -500;
         Level4_FinalBoss.checkDie = 0;
         Level4_FinalBoss.item = 0;
+        Level4_FinalBoss.itemDie = 0;
         
         this.boss = new Image[8];
         this.ammoBoss = new Image[4];
+        this.bossDie = new Image[8];
+        this.sounds = new sounds_Map4();
         
         Level4_FinalBoss.yAmmo = new int[4];
         Level4_FinalBoss.xAmmo = new int[4];
@@ -38,6 +45,10 @@ public class Level4_FinalBoss {
         for(int i=0; i<8; i++){
             try{
                 this.boss[i] = ImageIO.read(new File("S675/aircraft/Boss3_Idle_" + i + ".png"));
+            }catch(Exception e){}
+            
+            try{
+                this.bossDie[i] = ImageIO.read(new File("S675/aircraft/P104090/splash_ldodge.img (" + (i+1) + ").png"));
             }catch(Exception e){}
         }
         
@@ -58,6 +69,9 @@ public class Level4_FinalBoss {
     public void paint(Graphics g){
         if(Level4_FinalBoss.checkDie < 100){
             g.drawImage(this.boss[Level4_FinalBoss.item], 170, Level4_FinalBoss.DO_DOWN, null);
+        }
+        else{
+            g.drawImage(this.bossDie[Level4_FinalBoss.itemDie], 200, 50, 600, 600, null);
         }
     }
     

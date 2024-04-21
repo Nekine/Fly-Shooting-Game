@@ -10,6 +10,8 @@ import javax.imageio.ImageIO;
 
 public class Level3_MeteoriteChunks {
     private Image meteorite[];
+    private int count;
+    private int check;
     
     public static int GO_DOWN[];
     public static int checkDie[];
@@ -17,6 +19,8 @@ public class Level3_MeteoriteChunks {
 
     public Level3_MeteoriteChunks() {
         this.meteorite = new Image[30];
+        this.count = 0;
+        this.check = 0;
         Level3_MeteoriteChunks.size = new int[30];
         Level3_MeteoriteChunks.GO_DOWN = new int[5];
         Level3_MeteoriteChunks.checkDie = new int[30];
@@ -59,14 +63,21 @@ public class Level3_MeteoriteChunks {
     }
     
     public void moveMeteorite(){
+
         for(int i=0; i<5; i++){
             if(Level3_MeteoriteChunks.GO_DOWN[i] > 800){
-                Level3_MeteoriteChunks.GO_DOWN[i] = -200;
-                this.randomSizeMeteorite(i*6);
-                Map3.count++;
+                if(this.count < 20){
+                    Level3_MeteoriteChunks.GO_DOWN[i] = -200;
+                    this.randomSizeMeteorite(i*6);
+                    this.check = i;
+                    this.count++;
+                }
             }
             else{
-                Level3_MeteoriteChunks.GO_DOWN[i] += 7;
+                Level3_MeteoriteChunks.GO_DOWN[i] += 6;
+                if(this.count == 20 && Level3_MeteoriteChunks.GO_DOWN[this.check] > 800){
+                    Map3.count = 20;
+                }
             }
         }   
     }

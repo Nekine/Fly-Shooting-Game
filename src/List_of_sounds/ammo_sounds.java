@@ -7,14 +7,14 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 
-public class aircraft_sounds extends Thread{
+public class ammo_sounds extends Thread{
     private AudioInputStream gunshot;
     private AudioInputStream aitcraftDie;
     
     private Clip playSound_gunshot;
     private Clip playSound_aircraftDie;
     
-    public aircraft_sounds(){
+    public ammo_sounds(){
         try{
             this.gunshot = AudioSystem.getAudioInputStream(new File("S675/audio/umgah-backzip.wav")); 
             this.aitcraftDie = AudioSystem.getAudioInputStream(new File("S675/audio/player_die.wav"));

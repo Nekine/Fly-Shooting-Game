@@ -10,7 +10,7 @@ import List_of_space_flies.*;
 
 public class AmmoBlu1 {
     private Image ammo[][][];
-    private aircraft_sounds gunshot;
+    private ammo_sounds gunshot;
     
     public static int left[], right[];
     public static int index;
@@ -21,7 +21,7 @@ public class AmmoBlu1 {
     public AmmoBlu1() {
         this.ammo = new Image[4][3][8];
         
-        this.gunshot = new aircraft_sounds();
+        this.gunshot = new ammo_sounds();
         AmmoBlu1.shooting = new int[8];
         AmmoBlu1.flyHitCheck = new boolean[8];
         

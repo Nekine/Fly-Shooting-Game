@@ -19,6 +19,7 @@ public class GameScreen extends JPanel implements Runnable {
     private Map2 map2;
     private Map3 map3;
     private Map4 map4;
+    private winGame wingame;
 
     public StartScreen start;
     public static boolean checkPlay;
@@ -30,6 +31,7 @@ public class GameScreen extends JPanel implements Runnable {
         this.map2 = new Map2();
         this.map3 = new Map3();
         this.map4 = new Map4();
+        this.wingame = new winGame();
         GameScreen.checkPlay = false;
         this.setBounds(0, 0, 1000, 800); // khai báo kích thước của Jpanel
         thread.start();
@@ -51,6 +53,9 @@ public class GameScreen extends JPanel implements Runnable {
         }
         else if(Map3.switch_to_map4 && !Map4.switch_to_map5){
             this.map4.paint(g);
+        }
+        else if(Map4.switch_to_map5){
+            this.wingame.paint(g);
         }
     }
 
@@ -118,6 +123,12 @@ public class GameScreen extends JPanel implements Runnable {
                         }
                     }
                 }
+                
+                if(currentTimeMillis % 3 == 0 && Level4_FinalBoss.checkDie >= 100){
+                    if(Level4_FinalBoss.itemDie < 7){
+                        Level4_FinalBoss.itemDie++;
+                    }
+                }
                 // di chuyển may bay khi start game
                 if(!Map1.checkWin){
                     this.map1.startGame();
@@ -130,6 +141,9 @@ public class GameScreen extends JPanel implements Runnable {
                 }
                 else if(Map3.switch_to_map4 && !Map4.checkStart){
                     this.map4.startGame();
+                }
+                else if(Map4.switch_to_map5){
+                    this.wingame.startGame();
                 }
 
                 // di chuyển ruồi khi start game
@@ -205,10 +219,11 @@ public class GameScreen extends JPanel implements Runnable {
                 else  if(Map4.checkWin && !Map4.switch_to_map5){
                     this.map4.win();
                 }
-                
+               
+                repaint();
             }
             
-            repaint();
+            
             try {
                 Thread.sleep(30);
             } catch (InterruptedException ex) {

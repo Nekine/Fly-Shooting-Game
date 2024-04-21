@@ -1,6 +1,7 @@
 
 package List_of_sounds;
 
+import List_of_game_maps.*;
 import galacticskywars.GameScreen;
 import java.io.File;
 import javax.sound.sampled.AudioInputStream;
@@ -8,13 +9,14 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 
-public class sounds_start extends Thread{
+public class sounds_start{
     private AudioInputStream mainAudio;
     private AudioInputStream playingAudio;
     private AudioInputStream click_select_aircraft;
     private AudioInputStream click_play_button;
     
     private Clip playAudioMain;
+    private Clip playAudioPlaying;
     private Clip playAudioClickSelect;
     private Clip playAudioClickPlayButton;
 
@@ -23,10 +25,11 @@ public class sounds_start extends Thread{
             this.mainAudio = AudioSystem.getAudioInputStream(new File("S675/audio/main_menu.wav")); 
             this.click_select_aircraft = AudioSystem.getAudioInputStream(new File("S675/audio/tap.wav"));
             this.click_play_button = AudioSystem.getAudioInputStream(new File("S675/audio/pew_pew.wav"));
-            this.playingAudio = AudioSystem.getAudioInputStream(new File("S675/audio/"));
+            this.playingAudio = AudioSystem.getAudioInputStream(new File("S675/audio/hard_bg2.wav"));
             this.playAudioMain = AudioSystem.getClip();
             this.playAudioClickSelect = AudioSystem.getClip();
             this.playAudioClickPlayButton = AudioSystem.getClip();
+            this.playAudioPlaying = AudioSystem.getClip();
             
         }catch(Exception e){}
 
@@ -37,6 +40,13 @@ public class sounds_start extends Thread{
         try {
             if(this.playAudioMain.isOpen() && GameScreen.checkPlay == true){
                 this.playAudioMain.close();
+                if(this.playAudioPlaying.isOpen() && Map3.switch_to_map4){
+                    this.playAudioPlaying.close();
+                }
+                else{
+                    this.playAudioPlaying.open(this.playingAudio);
+                    this.playAudioPlaying.start();
+                }
             }
             else{
                 this.playAudioMain.open(this.mainAudio);

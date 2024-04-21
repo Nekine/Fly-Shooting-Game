@@ -1,6 +1,7 @@
 package List_of_game_maps;
 
 import List_of_ammos.AmmoBlu1;
+import List_of_sounds.*;
 import List_of_fighter_aircrafts.*;
 import List_of_space_flies.*;
 import java.awt.Graphics;
@@ -12,6 +13,7 @@ import javax.imageio.ImageIO;
 public class Map4 {
     private Image background;
     private CombatAircraft aircraft;
+    private sounds_Map4 sounds;
     
     public Level4_FinalBoss boss;
         
@@ -25,6 +27,7 @@ public class Map4 {
         Map4.switch_to_map5 = false;
         
         this.boss = new Level4_FinalBoss();
+        this.sounds = new sounds_Map4();
         
         this.aircraft = new CombatAircraft();
         try{
@@ -44,6 +47,7 @@ public class Map4 {
         
         if(Map4.checkStart){
             this.fourthRound(g);
+            this.sounds.playSounds();
         }
     }
     
@@ -58,6 +62,7 @@ public class Map4 {
 
             if (CombatAircraft.GO_UP == 70) {
                 Map4.checkStart = true;   
+                Map4.checkWin = true; // NOTE
             }
         }
     }
@@ -66,12 +71,12 @@ public class Map4 {
        this.boss.paint(g);
        
        // vẽ đạn Boss
-        if(Level4_FinalBoss.DO_DOWN >= 30 && !Map4.checkWin){
+        if(Level4_FinalBoss.DO_DOWN >= 30 && !Map4.checkWin && Level4_FinalBoss.checkDie < 100){
             this.boss.paintAmmoFly(g);
         }
         
         // check Win
-        if(Level4_FinalBoss.checkDie >= 100){
+        if(Level4_FinalBoss.checkDie >= 100 && Level4_FinalBoss.itemDie >= 7){
             Map4.checkWin = true;
         }
     }

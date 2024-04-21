@@ -2,7 +2,7 @@ package List_of_fighter_aircrafts;
 
 import List_of_ammos.*;
 import List_of_game_maps.*;
-import List_of_sounds.aircraft_sounds;
+import List_of_sounds.*;
 import List_of_space_flies.*;
 import galacticskywars.GameScreen;
 import java.awt.Graphics;
@@ -13,9 +13,9 @@ import javax.imageio.ImageIO;
 
 public class CombatAircraft {
     public AmmoBlu1 ammo; 
-    private aircraft_sounds aircraftDie;
+    private ammo_sounds aircraftDie;
     
-    private Image[][] aircrafts;
+    public static Image[][] aircrafts;
     private Image[][] planeLeft;
     private Image[][] planeRight;
     private Image[] die;
@@ -35,9 +35,9 @@ public class CombatAircraft {
     
     public CombatAircraft() {
         this.ammo = new AmmoBlu1();
-        this.aircraftDie = new aircraft_sounds();
+        this.aircraftDie = new ammo_sounds();
         
-        this.aircrafts = new Image[5][5];
+        CombatAircraft.aircrafts = new Image[5][5];
         this.planeLeft = new Image[5][5];
         this.planeRight = new Image[5][5];
         this.die = new Image[8];
@@ -53,7 +53,7 @@ public class CombatAircraft {
         for(int j=0; j<5; j++){
             for(int i=0; i<5; i++){
                 try{
-                    this.aircrafts[j][i] = ImageIO.read(new File("S675/aircraft/aircraft" + j + "_Idle_" + i + ".png"));
+                    CombatAircraft.aircrafts[j][i] = ImageIO.read(new File("S675/aircraft/aircraft" + j + "_Idle_" + i + ".png"));
                     this.planeLeft[j][i] = ImageIO.read(new File("S675/aircraft/aircraft" + j + "_Twirling_left_" + i + ".png"));
                     this.planeRight[j][i] = ImageIO.read(new File("S675/aircraft/aircraft" + j + "_Twirling_right_" + i + ".png"));
                 }catch(Exception e){}
@@ -83,45 +83,46 @@ public class CombatAircraft {
         else{}
         
         if(!GameScreen.checkPlay){
-            g.drawImage(this.aircrafts[CombatAircraft.index][CombatAircraft.item], 430, 460, 120, 90, null);
+            g.drawImage(CombatAircraft.aircrafts[CombatAircraft.index][CombatAircraft.item], 430, 460, 120, 90, null);
         }
-        else{
+        else if(!Map4.switch_to_map5){
             if(CombatAircraft.checkDie >= 3){
                 this.aircraftDie.aircraftDieSound();
                 g.drawImage(this.die[CombatAircraft.itemDie], 430-CombatAircraft.GO_LEFT+CombatAircraft.GO_RIGHT, 700-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN, 100, 100, null);
             } else {
-                g.drawImage(this.aircrafts[CombatAircraft.index][CombatAircraft.item], 430-CombatAircraft.GO_LEFT+CombatAircraft.GO_RIGHT, 700-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN, 90, 67, null);
+                g.drawImage(CombatAircraft.aircrafts[CombatAircraft.index][CombatAircraft.item], 430-CombatAircraft.GO_LEFT+CombatAircraft.GO_RIGHT, 700-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN, 90, 67, null);
             }
         }
     }
     
     public void painMove(Graphics g){
-        if(CombatAircraft.checkMove == 1){
-            g.drawImage(this.planeLeft[CombatAircraft.index][CombatAircraft.itemLeft], 430-CombatAircraft.GO_LEFT+CombatAircraft.GO_RIGHT, 700-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN, 90, 67, null);
+        if(CombatAircraft.checkDie < 3){
+            if(CombatAircraft.checkMove == 1){
+                g.drawImage(this.planeLeft[CombatAircraft.index][CombatAircraft.itemLeft], 430-CombatAircraft.GO_LEFT+CombatAircraft.GO_RIGHT, 700-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN, 90, 67, null);
+            }
+            else if(CombatAircraft.checkMove == 2){
+                g.drawImage(this.planeRight[CombatAircraft.index][CombatAircraft.itemRight], 430-CombatAircraft.GO_LEFT+CombatAircraft.GO_RIGHT, 700-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN, 90, 67, null);
+            }
+            else if(CombatAircraft.checkMove == 3){
+                g.drawImage(CombatAircraft.aircrafts[CombatAircraft.index][CombatAircraft.item], 430-CombatAircraft.GO_LEFT+CombatAircraft.GO_RIGHT, 700-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN, 90, 67, null);
+            }
+            else if(CombatAircraft.checkMove == 4){
+                g.drawImage(CombatAircraft.aircrafts[CombatAircraft.index][CombatAircraft.item], 430-CombatAircraft.GO_LEFT+CombatAircraft.GO_RIGHT, 700-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN, 90, 67, null);
+            }
+            // Ammo
+            if(!Map1.checkWin && Map1.checkStart){
+               this.ammo.paint(g);
+            }
+            else if(!Map2.checkWin && Map2.checkStart){
+               this.ammo.paint2(g);
+            }
+            else if(!Map3.checkWin && Map3.checkStart){
+                this.ammo.paint3(g);
+            }
+            else if(!Map4.checkWin && Map4.checkStart){
+                this.ammo.paint3(g);
+            }
         }
-        else if(CombatAircraft.checkMove == 2){
-            g.drawImage(this.planeRight[CombatAircraft.index][CombatAircraft.itemRight], 430-CombatAircraft.GO_LEFT+CombatAircraft.GO_RIGHT, 700-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN, 90, 67, null);
-        }
-        else if(CombatAircraft.checkMove == 3){
-            g.drawImage(this.aircrafts[CombatAircraft.index][CombatAircraft.item], 430-CombatAircraft.GO_LEFT+CombatAircraft.GO_RIGHT, 700-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN, 90, 67, null);
-        }
-        else if(CombatAircraft.checkMove == 4){
-            g.drawImage(this.aircrafts[CombatAircraft.index][CombatAircraft.item], 430-CombatAircraft.GO_LEFT+CombatAircraft.GO_RIGHT, 700-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN, 90, 67, null);
-        }
-        // Ammo
-        if(!Map1.checkWin && Map1.checkStart){
-           this.ammo.paint(g);
-        }
-        else if(!Map2.checkWin && Map2.checkStart){
-           this.ammo.paint2(g);
-        }
-        else if(!Map3.checkWin && Map3.checkStart){
-            this.ammo.paint3(g);
-        }
-        else if(!Map4.checkWin && Map4.checkStart){
-            this.ammo.paint3(g);
-        }
-        else{}
     }
     
     public void moveToThePlane(){
@@ -243,7 +244,7 @@ public class CombatAircraft {
                     int xMeteorite = 60+z*150;
                     int yMeteorite = Level3_MeteoriteChunks.GO_DOWN[j];
                     
-                    if(xAircraft>=xMeteorite && xAircraft<=xMeteorite+Level3_MeteoriteChunks.size[z+j*6]*50 && yAircraft<=yMeteorite+Level3_MeteoriteChunks.size[z+j*6]*50-20 && Level3_MeteoriteChunks.checkDie[z+j*6] < 4){
+                    if(xAircraft>=xMeteorite && xAircraft<=xMeteorite+Level3_MeteoriteChunks.size[z+j*6]*50-20 && yAircraft<=yMeteorite+Level3_MeteoriteChunks.size[z+j*6]*50-20 && Level3_MeteoriteChunks.checkDie[z+j*6] < 4){
                             CombatAircraft.checkDie = 3;
                             return;
                         }
