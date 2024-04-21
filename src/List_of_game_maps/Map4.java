@@ -62,7 +62,7 @@ public class Map4 {
 
             if (CombatAircraft.GO_UP == 70) {
                 Map4.checkStart = true;   
-                Map4.checkWin = true; // NOTE
+                //Map4.checkWin = true; // NOTE
             }
         }
     }

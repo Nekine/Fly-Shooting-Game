@@ -20,6 +20,7 @@ public class GameScreen extends JPanel implements Runnable {
     private Map3 map3;
     private Map4 map4;
     private winGame wingame;
+    private gameOver gamover;
 
     public StartScreen start;
     public static boolean checkPlay;
@@ -32,6 +33,7 @@ public class GameScreen extends JPanel implements Runnable {
         this.map3 = new Map3();
         this.map4 = new Map4();
         this.wingame = new winGame();
+        this.gamover = new gameOver();
         GameScreen.checkPlay = false;
         this.setBounds(0, 0, 1000, 800); // khai báo kích thước của Jpanel
         thread.start();
@@ -57,14 +59,17 @@ public class GameScreen extends JPanel implements Runnable {
         else if(Map4.switch_to_map5){
             this.wingame.paint(g);
         }
+        
+        if(CombatAircraft.checkDie >= 3 && CombatAircraft.itemDie >= 7){
+            this.gamover.paint(g);
+        }
     }
 
     public void paintBG(Graphics g) {
         try {
             this.background = ImageIO.read(new File("images_game/vutru.jpg"));
             g.drawImage(this.background, 0, 0, 1000, 800, null);
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {}
     }   
 
     @Override
@@ -115,7 +120,7 @@ public class GameScreen extends JPanel implements Runnable {
                         }
                     }
                     else if(!Map4.checkWin){
-                        if(Level4_FinalBoss.item == 7){
+                        if(Level4_FinalBoss.item >= 7){
                             Level4_FinalBoss.item = 0;
                         }
                         else{
@@ -222,7 +227,6 @@ public class GameScreen extends JPanel implements Runnable {
                
                 repaint();
             }
-            
             
             try {
                 Thread.sleep(30);

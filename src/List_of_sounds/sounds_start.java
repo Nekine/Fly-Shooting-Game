@@ -1,6 +1,7 @@
 
 package List_of_sounds;
 
+import List_of_fighter_aircrafts.CombatAircraft;
 import List_of_game_maps.*;
 import galacticskywars.GameScreen;
 import java.io.File;
@@ -38,9 +39,9 @@ public class sounds_start{
     
     public void mainSound(){
         try {
-            if(this.playAudioMain.isOpen() && GameScreen.checkPlay == true){
+            if(this.playAudioMain.isOpen() && GameScreen.checkPlay){
                 this.playAudioMain.close();
-                if(this.playAudioPlaying.isOpen() && Map3.switch_to_map4){
+                if(this.playAudioPlaying.isOpen() && (Map3.switch_to_map4 || CombatAircraft.checkDie >= 3)){
                     this.playAudioPlaying.close();
                 }
                 else{

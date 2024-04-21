@@ -8,9 +8,11 @@ import java.awt.Graphics;
 
 public class winGame {
     private sound_winGame soundWin;
+    public static boolean check;
     
     public winGame(){
         this.soundWin = new sound_winGame();
+        winGame.check = false;
     }
     
     public void paint(Graphics g){
@@ -26,6 +28,9 @@ public class winGame {
         if (Map3.switch_to_map4) {
             if (CombatAircraft.GO_UP < 240) {
                 CombatAircraft.GO_UP += 5;
+            }
+            else{
+                winGame.check = true;
             }
         }
     }
