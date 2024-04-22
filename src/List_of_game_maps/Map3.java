@@ -59,7 +59,7 @@ public class Map3 {
 
             if (CombatAircraft.GO_UP == 70) {
                 Map3.checkStart = true;   
-                Map3.checkWin = true; // NOTE
+                //Map3.checkWin = true; // NOTE
             }
         }
     }

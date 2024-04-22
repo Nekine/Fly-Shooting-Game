@@ -59,38 +59,25 @@ public class FrameScreen extends JFrame implements MouseListener{
         }
         else if(x>=260 && x<=330 && y>=710 && y<=740 && CombatAircraft.checkDie >= 3){
             this.game.start.playAudio_ClickPlayButton();
-            CombatAircraft.checkDie = 0;
-            CombatAircraft.itemDie = 0;
-            Map1.checkWin = false;
-            Map1.checkStart = false;
-            Map1.switch_to_map2 = false;
-            Map2.checkWin = false;
-            Map2.checkStart = false;
-            Map2.switch_to_map3 = false;
-            Map3.checkWin = false;
-            Map3.checkStart = false;
-            Map3.switch_to_map4 = false;
-            Map4.checkWin = false;
-            Map4.checkStart = false;
-            Map4.switch_to_map5 = false;
+            new StartScreen();
+            new Map1();
+            new Map2();
+            new Map3();
+            new Map4();
+            new winGame();
+            new gameOver();
+            GameScreen.checkPlay = true;     
         }
         else if(x>=650 && x<=710 && y>=710 && y<=740 && CombatAircraft.checkDie >= 3){
             this.game.start.playAudio_ClickPlayButton();
+            new StartScreen();
+            new Map1();
+            new Map2();
+            new Map3();
+            new Map4();
+            new winGame();
+            new gameOver();
             GameScreen.checkPlay = false;
-            CombatAircraft.checkDie = 0;
-            CombatAircraft.itemDie = 0;
-            Map1.checkWin = false;
-            Map1.checkStart = false;
-            Map1.switch_to_map2 = false;
-            Map2.checkWin = false;
-            Map2.checkStart = false;
-            Map2.switch_to_map3 = false;
-            Map3.checkWin = false;
-            Map3.checkStart = false;
-            Map3.switch_to_map4 = false;
-            Map4.checkWin = false;
-            Map4.checkStart = false;
-            Map4.switch_to_map5 = false;
         }
         
         this.game.repaint();

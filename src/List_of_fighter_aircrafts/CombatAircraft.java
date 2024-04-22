@@ -20,10 +20,10 @@ public class CombatAircraft {
     private Image[][] planeRight;
     private Image[] die;
     
-    public static int GO_UP = 0;
-    public static int GO_DOWN = 0;
-    public static int GO_LEFT = 0;
-    public static int GO_RIGHT = 0;
+    public static int GO_UP;
+    public static int GO_DOWN;
+    public static int GO_LEFT;
+    public static int GO_RIGHT;
     
     public static int checkMove;
     public static int checkDie;
@@ -49,6 +49,10 @@ public class CombatAircraft {
         CombatAircraft.itemRight = 0;
         CombatAircraft.itemDie = 0;
         CombatAircraft.checkDie = 0;
+        CombatAircraft.GO_UP = 0;
+        CombatAircraft.GO_DOWN = 0;
+        CombatAircraft.GO_LEFT = 0;
+        CombatAircraft.GO_RIGHT = 0;
         
         for(int j=0; j<5; j++){
             for(int i=0; i<5; i++){
@@ -214,7 +218,7 @@ public class CombatAircraft {
         int xAircraft = 430-CombatAircraft.GO_LEFT+CombatAircraft.GO_RIGHT;
         int yAircraft = 700-CombatAircraft.GO_UP+CombatAircraft.GO_DOWN;
         
-        for(int i=0; i<Level2_Flies.countFlies; i++){
+        for(int i=0; i<8; i++){
             int xAmmo;
             int yAmmo = Level2_Flies.GO_DOWN+Level2_Flies.shooting[i];
             
@@ -224,8 +228,11 @@ public class CombatAircraft {
             else if(Level2_Flies.fliesShootingBullets[i] < 16){
                 xAmmo = 60+(Level2_Flies.fliesShootingBullets[i]/8)*120;
             }
-            else{
+            else if(Level2_Flies.fliesShootingBullets[i] < 24){
                 xAmmo = 60+(Level2_Flies.fliesShootingBullets[i]/16)*120;
+            }
+            else{
+                xAmmo = -10;
             }
             
             if((xAmmo+10<=xAircraft+70 && xAmmo>=xAircraft) && (yAmmo+10>=yAircraft && yAmmo+10<=yAircraft+60)){

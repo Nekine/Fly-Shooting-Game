@@ -59,8 +59,8 @@ public class Map1 {
 
             if (CombatAircraft.GO_UP == 70) {
                 Map1.checkStart = true;
-                Map1.checkWin = true; // NOTE
-                CombatAircraft.checkDie = 3; // NOTE
+                //Map1.checkWin = true; // NOTE
+                //CombatAircraft.checkDie = 3; // NOTE
             }
         }
     }

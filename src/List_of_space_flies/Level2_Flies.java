@@ -3,7 +3,6 @@ package List_of_space_flies;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
-import java.util.Random;
 import javax.imageio.ImageIO;
 
 
@@ -15,7 +14,6 @@ public class Level2_Flies {
     public static int itemIdle;
     public static int itemDown;
     public static int GO_DOWN;
-    public static int countFlies;
     
     public static int checkDie[];
     public static int shooting[];
@@ -35,7 +33,6 @@ public class Level2_Flies {
         Level2_Flies.GO_DOWN = 0;
         Level2_Flies.itemIdle = 0;
         Level2_Flies.itemDown = 0;
-        Level2_Flies.countFlies = 8;
         
         for(int i=0; i<24; i++){
             Level2_Flies.checkDie[i] = 0;
@@ -117,7 +114,7 @@ public class Level2_Flies {
     }
     
     public void paintAmmoFly(Graphics g){
-        for(int i=0; i<Level2_Flies.countFlies; i++){
+        for(int i=0; i<8; i++){
             if(Level2_Flies.fliesShootingBullets[i] < 8){
                 if(!Level2_Flies.aircraftHitCheck[i]){
                     g.drawImage(this.ammoFly[Level2_Flies.fliesShootingBullets[i]], 60+Level2_Flies.fliesShootingBullets[i]*120, Level2_Flies.GO_DOWN+Level2_Flies.shooting[i], 30, 30, null);
@@ -128,7 +125,7 @@ public class Level2_Flies {
                     g.drawImage(this.ammoFly[Level2_Flies.fliesShootingBullets[i]], 60+(Level2_Flies.fliesShootingBullets[i]/8)*120, Level2_Flies.GO_DOWN+90+Level2_Flies.shooting[i], 30, 30, null);
                 }
             }
-            else{
+            else if(Level2_Flies.fliesShootingBullets[i] < 24){
                 if(!Level2_Flies.aircraftHitCheck[i]){
                 g.drawImage(this.ammoFly[Level2_Flies.fliesShootingBullets[i]], 60+(Level2_Flies.fliesShootingBullets[i]/16)*120, Level2_Flies.GO_DOWN+180+Level2_Flies.shooting[i], 30, 30, null);
                 }
@@ -137,60 +134,32 @@ public class Level2_Flies {
     }
     
     public void shootingAmmoFlies(){
-        if(this.countAliveFlies() == -1){
-            Level2_Flies.countFlies = 8;
-        }
-        else {
-            Level2_Flies.countFlies = this.countAliveFlies()-1;
-        }
-        
-        for(int i=0; i<Level2_Flies.countFlies; i++){
+        for(int i=0; i<8; i++){
             if(Level2_Flies.shooting[i] < 700 && !Level2_Flies.aircraftHitCheck[i]){
                 Level2_Flies.shooting[i] += 5;
             } 
             else{
                 Level2_Flies.aircraftHitCheck[i] = false;
                 Level2_Flies.shooting[i] = 0;
-                if(Level2_Flies.countFlies == 8){
-                    this.randomFliy(i);
-                }
-                else {
-                    this.countAliveFlies();
-                }
+                this.randomFliy(i);
             }
         }
         
-    }
-    
-    public int countAliveFlies(){
-        int count = 0;
-        int[] alive = new int[24];
-        for(int i=0; i<24; i++){
-            if(Level2_Flies.checkDie[i] < 6){
-                alive[count] = i;
-                count++;
-            }
-        }
-        
-        if(count < 8){
-            for(int i=0; i<count-1; i++){
-                Level2_Flies.fliesShootingBullets[i] = alive[i];
-            }
-            return count;
-        }
-        else {
-            return -1;
-        }
     }
     
     private void randomFliy(int index){
-        Random random = new Random();
-        while(true){
-            int randomNumber = random.nextInt(24);
-            
-            if(randomNumber != Level2_Flies.fliesShootingBullets[index] && Level2_Flies.checkDie[randomNumber] < 6){
-                Level2_Flies.fliesShootingBullets[index] = randomNumber;
-                break;
+        if(Level2_Flies.fliesShootingBullets[index] < 24){
+            if(Level2_Flies.checkDie[Level2_Flies.fliesShootingBullets[index]] < 6){
+              //  
+            }
+            else if(Level2_Flies.checkDie[Level2_Flies.fliesShootingBullets[index]+8] < 6){
+                Level2_Flies.fliesShootingBullets[index] += 8;
+            }
+            else if(Level2_Flies.checkDie[Level2_Flies.fliesShootingBullets[index]+16] < 6){
+                Level2_Flies.fliesShootingBullets[index] += 16;
+            }
+            else{
+                Level2_Flies.fliesShootingBullets[index] = 24;
             }
         }
     }
